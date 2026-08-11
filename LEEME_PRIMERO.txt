@@ -1,0 +1,56 @@
+MI MOVISTAR - ENTIENDE TU RECIBO v5
+====================================
+
+ABRIR EN WINDOWS CON COMANDOS
+-----------------------------
+1. Instala Node.js 22 y usa npm 11.16 o posterior.
+2. Abre PowerShell y comprueba: node --version y npm --version.
+3. Si npm es anterior a 11.16, ejecuta npm install -g npm@latest y vuelve a
+   abrir PowerShell.
+4. Dentro de esta carpeta, ejecuta uno por uno:
+
+   npm install
+   npm approve-scripts esbuild
+   npm run configurar
+   npm run diagnostico
+   npm run dev
+
+5. Abre http://localhost:3000
+
+El comando npm approve-scripts existe desde npm 11.16. Si aparece
+"Unknown command", la versión de npm todavía es antigua.
+
+GEMINI
+------
+El comando npm run configurar solicita tu clave y la guarda en .env.local.
+Después puedes comprobarla con:
+
+   npm run probar:gemini
+
+Gemini interpreta preguntas, incluso mal escritas. Los montos nunca los inventa:
+salen de backend/data/billing_data.json.
+
+WHATSAPP
+--------
+1. Activa Twilio Sandbox for WhatsApp.
+2. Escanea el QR o envía exactamente el mensaje join que muestra Twilio.
+3. Espera la confirmación en WhatsApp.
+4. Ejecuta npm run configurar y responde s para agregar Twilio.
+5. Ejecuta npm run probar:whatsapp.
+6. En la app: LucIA > Todavía tengo dudas > Enviar resumen por WhatsApp.
+
+OFERTA
+------
+Primero aparece bloqueada. Solo se habilita después de que el cliente pulsa
+"Sí, quedó claro". Si pide un asesor, continúa bloqueada.
+
+DATOS DE DEMO
+-------------
+Cliente: Sebastián Alexis Euribe Zambrano
+Línea: 968 821 435
+Recibo actual: S/82.90
+Aumento: S/23.00
+Causas: paquete 10 GB S/15.00 + Movistar Música S/8.00
+Documentos: seis recibos PDF, marzo a agosto de 2026.
+
+Lee README.md para la guía detallada.
