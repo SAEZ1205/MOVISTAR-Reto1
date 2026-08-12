@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { whatsappConfigured } from "@/backend/whatsapp";
+import { whatsappConfigured } from "@/backend/handoff/whatsapp";
 
 export async function GET() {
   return NextResponse.json({

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendWhatsAppSummary, type ConversationLine } from "@/backend/whatsapp";
+import { sendWhatsAppSummary, type ConversationLine } from "@/backend/handoff/whatsapp";
 
 export async function POST(request: NextRequest) {
   try {

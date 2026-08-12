@@ -1,23 +1,7 @@
-import billing from "@/backend/data/billing_data.json";
+import billing from "@/src/data/mocks/billingData";
+import type { Receipt } from "@/src/types/billing";
 
-export type Receipt = {
-  slug: string;
-  month: string;
-  shortMonth: string;
-  period: string;
-  issued: string;
-  due: string;
-  code: string;
-  amount: number;
-  previous: number;
-  status: "Pagado" | "Pendiente";
-  usage: number;
-  note: string;
-  charges: { label: string; amount: number; kind: "plan" | "extra" | "adjustment" }[];
-  explanation: string;
-  evidence: string[];
-  file: string;
-};
+export type { Receipt } from "@/src/types/billing";
 
 export const customer = {
   name: billing.customer.name,

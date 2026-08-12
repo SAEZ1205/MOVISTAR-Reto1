@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { answerFor, geminiClassification, localClassification } from "@/backend/assistant";
+import { answerFor, geminiClassification, localClassification } from "@/backend/ai/assistant";
 
 export async function POST(request: NextRequest) {
   try {

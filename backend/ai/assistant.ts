@@ -1,4 +1,4 @@
-import billing from "./data/billing_data.json";
+import billing from "../data/demo/billing_data.json";
 
 export type Intent =
   | "increase"

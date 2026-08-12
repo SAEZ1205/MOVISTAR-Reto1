@@ -51,7 +51,7 @@ npm run probar:gemini
 npm run dev
 ```
 
-Gemini solo clasifica la intención y tolera frases incompletas o mal escritas, por ejemplo `xq me vino mas karo`. Los montos y explicaciones salen de `backend/data/billing_data.json`. Si Gemini no responde, se usa el clasificador local sin detener la app.
+Gemini solo clasifica la intención y tolera frases incompletas o mal escritas, por ejemplo `xq me vino mas karo`. Los montos y explicaciones salen de `backend/data/demo/billing_data.json`. Si Gemini no responde, se usa el clasificador local sin detener la app.
 
 ## Configurar WhatsApp con Twilio Sandbox
 
@@ -104,10 +104,16 @@ Si eliges **Todavía tengo dudas**, la oferta permanece bloqueada y se prepara l
 
 ## Arquitectura
 
-- `app/` y `public/`: interfaz responsive y rutas HTTP.
-- `backend/assistant.ts`: clasificación de Gemini, intención local y respuestas verificadas.
-- `backend/whatsapp.ts`: resumen de derivación y envío a Twilio.
-- `backend/data/billing_data.json`: única fuente de datos financieros de la demo.
+- `app/`: entradas mínimas de Next.js y rutas HTTP; la interfaz se mantiene en `src/`.
+- `src/pages/cliente/`: Inicio, resumen explicado, consumo e historial de recibos.
+- `src/pages/asesor/`: espacio separado para el dashboard y el detalle de cada caso.
+- `src/components/`: componentes reutilizables de cliente, LucIA, asesor y elementos compartidos.
+- `src/services/`: acceso a facturación, LucIA, derivación y ofertas.
+- `src/types/`: contratos TypeScript compartidos entre los módulos.
+- `backend/ai/assistant.ts`: clasificación de Gemini, intención local y respuestas verificadas.
+- `backend/handoff/whatsapp.ts`: resumen de derivación y envío a Twilio.
+- `backend/data/demo/billing_data.json`: única fuente de datos financieros de la demo.
+- `backend/data/raw/` y `backend/data/processed/`: espacios para preparar el dataset sin mezclarlo con la demo.
 - `public/recibos/`: seis PDF ficticios.
 - `.env.local`: claves locales; nunca debe subirse a GitHub.
 
