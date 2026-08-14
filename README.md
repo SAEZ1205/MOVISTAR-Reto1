@@ -1,126 +1,111 @@
-# Mi Movistar · Entiende tu recibo v5
+# MOVISTAR Reto 1 · Mi recibo inteligente
 
-Prototipo académico de un módulo que viviría dentro de Mi Movistar. LucIA compara seis recibos, explica variaciones con evidencia, muestra consumo entendible, deriva el contexto por WhatsApp y habilita una oferta únicamente después de resolver la consulta.
+Prototipo académico móvil inspirado en la experiencia de **Mi Movistar**. La solución se integra como un botón de IA dentro de **Mi recibo**: LucIA explica variaciones con evidencia, compara seis recibos, muestra consumo, recuerda beneficios, deriva el contexto al Call Center y solo habilita una oferta cuando la consulta ya fue resuelta.
 
-## Inicio rápido en Windows
+> Proyecto académico no afiliado oficialmente a Movistar. Todos los datos personales, recibos, órdenes, montos y acciones son ficticios o simulados.
 
-Necesitas Node.js 22 y npm 11.16 o posterior. Comprueba las versiones:
+## Stack oficial
 
-```powershell
-node --version
-npm --version
-```
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS 4
 
-Si npm es anterior a 11.16 y no reconoce `approve-scripts`, actualízalo una vez y vuelve a abrir PowerShell:
+La aplicación principal **no usa Next.js**. El código antiguo quedó conservado dentro de `legacy/` únicamente como referencia y no participa en la compilación.
 
-```powershell
-npm install -g npm@latest
-```
+## Ejecutar el proyecto
 
-Después, dentro de la carpeta del proyecto, ejecuta uno por uno:
+Requisitos: Node.js 22.13 o superior.
 
-```powershell
+```bash
 npm install
-npm approve-scripts esbuild
-npm run configurar
-npm run diagnostico
 npm run dev
 ```
 
 Abre `http://localhost:3000`.
 
-`npm run configurar` te pide la clave de Gemini y, si deseas, los datos de Twilio. Los secretos se guardan en `.env.local`, que está ignorado por Git. Si cambias alguna clave, detén la app con `Ctrl + C`, vuelve a ejecutar `npm run configurar` y después `npm run dev`.
+Si quieres abrirlo desde otro dispositivo conectado a tu misma red local, usa `npm run dev -- --host 0.0.0.0`.
 
-Los avisos `deprecated` y `allow-scripts` de npm no cambian los colores ni la vista móvil. `npm approve-scripts esbuild` se ejecuta una sola vez para autorizar únicamente el instalador de esbuild que aparece en el lockfile. El comando existe desde npm 11.16; en una versión anterior verás `Unknown command`.
+Para comprobar la versión de producción:
 
-## Probar Gemini
-
-1. Crea o copia tu clave desde Google AI Studio.
-2. Ejecuta `npm run configurar`.
-3. Escribe la clave cuando la terminal la solicite. Se verá oculta con puntos.
-4. Conserva `gemini-2.5-flash` o indica otro modelo disponible para tu clave.
-5. Comprueba la conexión:
-
-```powershell
-npm run probar:gemini
+```bash
+npm run build
+npm run preview
 ```
 
-6. Inicia la app:
+Si npm muestra específicamente un aviso para aprobar `esbuild`, ejecuta una vez:
 
-```powershell
-npm run dev
+```bash
+npm approve-scripts esbuild
 ```
 
-Gemini solo clasifica la intención y tolera frases incompletas o mal escritas, por ejemplo `xq me vino mas karo`. Los montos y explicaciones salen de `backend/data/demo/billing_data.json`. Si Gemini no responde, se usa el clasificador local sin detener la app.
+En Windows también puedes ejecutar `INICIAR_EN_WINDOWS.bat`.
 
-## Configurar WhatsApp con Twilio Sandbox
+## Flujo principal de la demo
 
-El Sandbox sirve para una demo. No representa el proceso de producción de Movistar.
+1. Entra a **Recibo** desde la barra inferior.
+2. Pulsa **Entiende tu recibo con LucIA**.
+3. Revisa la diferencia entre julio y agosto, el desglose y la evidencia.
+4. Abre LucIA y pregunta, por ejemplo: `xq me vino mas karo`.
+5. Si confirmas que la explicación resolvió la duda, se habilita una oferta controlada.
+6. Si todavía tienes dudas, se crea un caso con el contexto completo para el Call Center.
 
-1. Crea una cuenta en Twilio e ingresa a la consola.
-2. Ve a **Messaging → Try it out → Send a WhatsApp message**.
-3. Activa el Sandbox y confirma sus términos.
-4. La consola mostrará un número Sandbox y una frase como `join palabra-palabra`.
-5. Desde el WhatsApp que recibirá los resúmenes, escanea el QR. Se abrirá un chat con el mensaje preparado.
-6. Envía ese mensaje `join ...` exactamente como aparece. Si lo haces manualmente, también debes copiarlo tal cual.
-7. Espera la respuesta de Twilio que confirma que tu número se unió al Sandbox.
-8. En PowerShell ejecuta:
+La IA interpreta la intención; los importes, fechas, cargos, beneficios y ofertas se obtienen de datos estructurados. Si no hay evidencia, responde que no puede afirmarlo y ofrece derivación.
 
-```powershell
-npm run configurar
-```
-
-9. Responde `s` cuando pregunte por Twilio y completa:
+## Estructura
 
 ```text
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=tu_token
-TWILIO_WHATSAPP_FROM=whatsapp:+numero_sandbox
-CALLCENTER_WHATSAPP_TO=whatsapp:+51968821435
+MOVISTAR-Reto1/
+├── src/
+│   ├── pages/
+│   │   ├── cliente/
+│   │   └── asesor/
+│   ├── components/
+│   │   ├── cliente/
+│   │   ├── lucia/
+│   │   ├── asesor/
+│   │   └── shared/
+│   ├── services/
+│   ├── types/
+│   ├── data/mocks/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── backend/
+│   ├── data/{raw,processed,demo}/
+│   ├── billing/
+│   ├── ai/
+│   ├── handoff/
+│   └── offers/
+├── scripts/preparar-dataset.py
+├── public/
+├── legacy/
+├── index.html
+├── package.json
+├── vite.config.ts
+└── tsconfig.json
 ```
 
-10. Prueba el envío real:
+## Servicios del frontend
 
-```powershell
-npm run probar:whatsapp
-```
+- `billingService.ts`: recibos, comparación y análisis.
+- `luciaService.ts`: preguntas y respuestas con modo local verificado o API externa opcional.
+- `handoffService.ts`: creación, lectura y actualización de casos de demo.
+- `offerService.ts`: elegibilidad y catálogo controlado.
 
-11. Confirma con `s`. Deberá llegar un mensaje de prueba.
-12. Inicia la app, abre LucIA, elige **Todavía tengo dudas** y pulsa **Enviar resumen por WhatsApp**.
+Los secretos nunca deben usar el prefijo `VITE_`. Las variables `GEMINI_API_KEY` y `TWILIO_*` están reservadas para un backend seguro.
 
-Importante: el número indicado en `CALLCENTER_WHATSAPP_TO` debe haberse unido al Sandbox. Al enviar el `join` se abre una ventana de atención de 24 horas para mensajes libres. La unión al Sandbox caduca después de tres días, así que conviene repetirla poco antes de la presentación.
+## Reparto para cuatro personas
 
-## Verificar la oferta sin venta invasiva
+| Persona | Responsabilidad | Carpetas principales |
+|---|---|---|
+| 1 | Dataset y lógica financiera | `backend/data/`, `backend/billing/`, `scripts/`, `src/types/billing.ts` |
+| 2 | LucIA y motor IA | `backend/ai/`, `src/components/lucia/`, `src/services/luciaService.ts`, `src/types/lucia.ts` |
+| 3 | Frontend del cliente | `src/pages/cliente/`, `src/components/cliente/`, `src/components/shared/`, `billingService.ts`, `offerService.ts` |
+| 4 | Call Center y hand-off | `src/pages/asesor/`, `src/components/asesor/`, `backend/handoff/`, `handoffService.ts`, `src/types/case.ts` |
 
-1. Abre **Revisar demo**. La oferta figura como **Bloqueada**.
-2. Acepta el aviso inicial de LucIA o pregunta `¿por qué subió mi recibo?`.
-3. LucIA explica el aumento usando el recibo y las órdenes simuladas.
-4. Pulsa **Sí, quedó claro**.
-5. LucIA recuerda los beneficios que ya tienes y recién entonces habilita una oferta puntual.
-6. Verás **Bolsa extra de 5 GB por S/5.90**, porque el consumo llegó al 87% y faltan cinco días.
-7. Pulsa **Simular contratación**. No se realiza ningún cobro real.
+Para evitar conflictos, cada integrante debe crear su propia rama y no modificar carpetas asignadas a otra persona sin coordinar.
 
-Si eliges **Todavía tengo dudas**, la oferta permanece bloqueada y se prepara la derivación a un humano. Esa es la regla de cross-selling del prototipo.
+## Archivos antiguos conservados
 
-## Arquitectura
-
-- `app/`: entradas mínimas de Next.js y rutas HTTP; la interfaz se mantiene en `src/`.
-- `src/pages/cliente/`: Inicio, resumen explicado, consumo e historial de recibos.
-- `src/pages/asesor/`: espacio separado para el dashboard y el detalle de cada caso.
-- `src/components/`: componentes reutilizables de cliente, LucIA, asesor y elementos compartidos.
-- `src/services/`: acceso a facturación, LucIA, derivación y ofertas.
-- `src/types/`: contratos TypeScript compartidos entre los módulos.
-- `backend/ai/assistant.ts`: clasificación de Gemini, intención local y respuestas verificadas.
-- `backend/handoff/whatsapp.ts`: resumen de derivación y envío a Twilio.
-- `backend/data/demo/billing_data.json`: única fuente de datos financieros de la demo.
-- `backend/data/raw/` y `backend/data/processed/`: espacios para preparar el dataset sin mezclarlo con la demo.
-- `public/recibos/`: seis PDF ficticios.
-- `.env.local`: claves locales; nunca debe subirse a GitHub.
-
-Local y publicado usan las mismas rutas `/api/chat`, `/api/status` y `/api/whatsapp`. Ya no existe un segundo backend Python con respuestas diferentes.
-
-## Límites reales
-
-Autenticación, pago, CRM, facturación, órdenes, contratación y transferencia a un asesor son simulados. Para producción se necesitarían APIs internas de Movistar, controles de acceso, auditoría, plantillas oficiales de WhatsApp y métricas de precisión.
-
-Todo el contenido es ficticio y académico. No está afiliado oficialmente a Movistar.
+`legacy/next-prototype/`, `legacy/sites-runtime/`, `legacy/integrations/` y `legacy/generated/` contienen la implementación anterior y archivos de apoyo. No se cargan desde Vite y pueden eliminarse en una limpieza posterior cuando el equipo confirme que ya no necesita compararlos.

@@ -1,5 +1,5 @@
 import billing from "@/src/data/mocks/billingData";
-import type { Receipt } from "@/src/types/billing";
+import type { BillAnalysis, Receipt } from "@/src/types/billing";
 
 export type { Receipt } from "@/src/types/billing";
 
@@ -35,7 +35,8 @@ export const receipts: Receipt[] = billing.receipts.map((receipt) => ({
   file: receipt.file,
 }));
 
-export const currentReceipt = receipts[receipts.length - 1];
+export const currentReceipt = receipts.at(-1)!;
+export const previousReceipt = receipts.at(-2)!;
 export const dailyUsage = billing.daily_usage;
 export const benefits = billing.benefits;
 export const offer = billing.offer;
@@ -46,6 +47,15 @@ export const usageCategories = billing.usage_categories.map((item) => ({
   color: item.color,
 }));
 
-export function money(value: number) {
-  return `S/${value.toFixed(2)}`;
+export async function getBills() { return receipts; }
+export async function getCurrentBill() { return currentReceipt; }
+export async function getBillAnalysis(): Promise<BillAnalysis> {
+  return {
+    current: currentReceipt,
+    previous: previousReceipt,
+    difference: currentReceipt.amount - previousReceipt.amount,
+    evidence: { status: "VERIFIED", sources: currentReceipt.evidence, explanation: currentReceipt.explanation },
+  };
 }
+
+export function money(value: number) { return `S/${value.toFixed(2)}`; }

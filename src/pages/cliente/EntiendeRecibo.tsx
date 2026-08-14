@@ -1,69 +1,29 @@
 import type { CSSProperties } from "react";
 import BillBreakdown from "@/src/components/cliente/BillBreakdown";
 import ReceiptTrend from "@/src/components/cliente/ReceiptTrend";
-import LuciaImage from "@/src/components/lucia/LuciaImage";
-import { currentReceipt, customer, money, offer } from "@/src/services/billingService";
-import type { Receipt } from "@/src/types/billing";
+import LuciaButton from "@/src/components/lucia/LuciaButton";
+import Badge from "@/src/components/shared/Badge";
+import Button from "@/src/components/shared/Button";
+import Card from "@/src/components/shared/Card";
+import Header from "@/src/components/shared/Header";
+import Icon from "@/src/components/shared/Icon";
+import { benefits, currentReceipt, customer, money, offer } from "@/src/services/billingService";
 import type { Resolution } from "@/src/types/lucia";
 
-type EntiendeReciboProps = {
-  resolution: Resolution;
-  usedPercent: number;
-  remaining: number;
-  currentDelta: number;
-  onSelectReceipt: (receipt: Receipt) => void;
-  onExplain: () => void;
-  onShowReceipts: () => void;
-  onShowConsumption: () => void;
-  onOpenChat: () => void;
-};
-
-export default function EntiendeRecibo({
-  resolution,
-  usedPercent,
-  remaining,
-  currentDelta,
-  onSelectReceipt,
-  onExplain,
-  onShowReceipts,
-  onShowConsumption,
-  onOpenChat,
-}: EntiendeReciboProps) {
+export default function EntiendeRecibo({ resolution, usedPercent, remaining, currentDelta, onBack, onHistory, onConsumption, onOpenChat, onResolved, onHuman }: { resolution: Resolution; usedPercent: number; remaining: number; currentDelta: number; onBack: () => void; onHistory: () => void; onConsumption: () => void; onOpenChat: () => void; onResolved: () => void; onHuman: () => void }) {
   return (
-    <div className="summary-layout">
-      <section className="bill-card card">
-        <div className="bill-top"><div><span>Recibo de agosto</span><small>Vence el 15 de agosto</small></div><b>Pendiente</b></div>
-        <div className="bill-amount"><strong>{money(currentReceipt.amount)}</strong><span>↑ {money(currentDelta)} vs. julio</span></div>
-        <div className="bill-actions"><button className="primary-button">Pagar recibo</button><button className="secondary-button" onClick={() => onSelectReceipt(currentReceipt)}>Ver PDF</button></div>
-      </section>
-
-      <section className="explanation-card card">
-        <header className="section-header"><div><small>Explicación directa</small><h3>Tu plan no subió de precio</h3></div><span className="verified-pill">✓ Verificado</span></header>
-        <p className="lead-copy">El aumento de <strong>S/23.00</strong> viene de dos servicios agregados durante este ciclo.</p>
-        <BillBreakdown />
-        <button className="ask-lucia-button" onClick={onExplain}><LuciaImage compact /><span><strong>¿Quieres que LucIA te lo explique?</strong><small>Pregunta con tus propias palabras</small></span><b>›</b></button>
-      </section>
-
-      <section className="trend-card card">
-        <header className="section-header"><div><small>Últimos 6 meses</small><h3>Así cambió tu recibo</h3></div><button className="text-button" onClick={onShowReceipts}>Ver PDF →</button></header>
-        <ReceiptTrend />
-        <div className="insight"><span>i</span><p><strong>Fue estable hasta julio.</strong> Mayo subió S/2.50 por un prorrateo y agosto S/23.00 por dos cargos.</p></div>
-      </section>
-
-      <section className="usage-card card">
-        <header className="section-header"><div><small>Datos móviles</small><h3>Te quedan 5.2 GB</h3></div><span className="warning-pill">Vas justo</span></header>
-        <div className="usage-main">
-          <div className="usage-ring" style={{ "--usage": `${usedPercent * 3.6}deg` } as CSSProperties}><span><strong>{usedPercent}%</strong><small>usado</small></span></div>
-          <div><p><strong>34.8 GB</strong> de {customer.planData} GB</p><span>Quedan {remaining.toFixed(1)} GB para 5 días.</span><small>A este ritmo podrían terminarse el 14 de agosto.</small></div>
-        </div>
-        <button className="secondary-button full" onClick={onShowConsumption}>Ver consumo diario</button>
-      </section>
-
-      <section className={`next-step-card card ${resolution === "resolved" ? "unlocked" : ""}`}>
-        <div className="next-icon">{resolution === "resolved" ? "✓" : "⌁"}</div>
-        <div><small>Siguiente paso inteligente</small><h3>{resolution === "resolved" ? "Oferta habilitada con una regla clara" : "Primero resolvemos tu consulta"}</h3><p>{resolution === "resolved" ? `${offer.name} por ${money(offer.price)}. ${offer.reason}` : "LucIA no mostrará ninguna venta hasta que confirmes que entendiste el cobro."}</p></div>
-        <button onClick={onOpenChat}>{resolution === "resolved" ? "Ver oferta" : "Resolver con LucIA"}</button>
-      </section>
+    <div className="assistant-screen">
+      <Header title="Entiende tu recibo" onBack={onBack} />
+      <div className="screen-content">
+        <section className="assistant-hero"><span><Icon name="sparkles" /></span><div><small>ANÁLISIS CON EVIDENCIA</small><h2>Tu plan no subió de precio</h2><p>LucIA encontró dos servicios adicionales que explican exactamente el cambio.</p></div><Badge tone="green">Verificado</Badge></section>
+        <Card className="difference-card"><span><small>Recibo anterior</small><strong>{money(currentReceipt.previous)}</strong></span><Icon name="arrow-right" /><span><small>Recibo actual</small><strong>{money(currentReceipt.amount)}</strong></span><b>+{money(currentDelta)}</b></Card>
+        <Card className="explanation-card"><div className="section-title"><span><small>DESGLOSE DEL TOTAL</small><h2>¿Qué cambió este mes?</h2></span><Badge tone="blue">0% inventado</Badge></div><p className="plain-explanation">Tu plan conserva el mismo precio. El aumento viene de un paquete de datos y un servicio activados durante el ciclo.</p><BillBreakdown /><div className="evidence-box"><Icon name="check" /><span><strong>Evidencia utilizada</strong><small>{currentReceipt.evidence.join(" · ")}</small></span></div></Card>
+        <LuciaButton onClick={onOpenChat} compact />
+        <Card className="trend-card"><div className="section-title"><span><small>ÚLTIMOS 6 MESES</small><h2>Así cambió tu recibo</h2></span><button onClick={onHistory}>Ver recibos</button></div><ReceiptTrend /><p className="chart-note"><strong>Fue estable hasta julio.</strong> Mayo tuvo un prorrateo de S/2.50 y agosto dos cargos adicionales.</p></Card>
+        <Card className="usage-summary"><div><small>DATOS MÓVILES</small><h2>Te quedan {remaining.toFixed(1)} GB</h2><p>de {customer.planData} GB para {customer.daysRemaining} días.</p><Button variant="secondary" onClick={onConsumption}>Ver mi consumo</Button></div><div className="usage-ring" style={{ "--usage": `${usedPercent * 3.6}deg` } as CSSProperties}><span><strong>{usedPercent}%</strong><small>usado</small></span></div></Card>
+        <Card className="benefit-reminder"><Icon name="gift" /><div><small>YA ESTÁ INCLUIDO EN TU PLAN</small><h2>No pagues dos veces por lo que ya tienes</h2><p>{benefits.join(" · ")}</p></div></Card>
+        <Card className={`decision-card ${resolution}`}><div><small>SIGUIENTE PASO</small><h2>{resolution === "resolved" ? "Consulta resuelta: oferta habilitada" : resolution === "needs-help" ? "Derivación lista para un asesor" : "¿La explicación resolvió tu duda?"}</h2><p>{resolution === "resolved" ? `${offer.name} por ${money(offer.price)}. La regla comercial sí se cumple.` : resolution === "needs-help" ? "Prepararemos todo el contexto para que no repitas la historia." : "La oferta permanece bloqueada hasta que confirmes que entendiste el cobro."}</p></div>{resolution === "pending" && <footer><Button onClick={onResolved}>Sí, quedó claro</Button><Button variant="secondary" onClick={onHuman}>Todavía tengo dudas</Button></footer>}{resolution !== "pending" && <Button onClick={onOpenChat}>{resolution === "resolved" ? "Ver oferta en LucIA" : "Preparar derivación"}</Button>}</Card>
+      </div>
     </div>
   );
 }

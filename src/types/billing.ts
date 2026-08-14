@@ -1,4 +1,19 @@
+export type MainSection = "inicio" | "recibo" | "beneficios" | "tienda" | "soporte";
+export type ReceiptView = "overview" | "assistant" | "consumption" | "history";
 export type Tab = "resumen" | "consumo" | "recibos";
+export type EvidenceStatus = "VERIFIED" | "PARTIAL" | "NONE";
+
+export type BillItem = {
+  label: string;
+  amount: number;
+  kind: "plan" | "extra" | "adjustment";
+};
+
+export type Evidence = {
+  status: EvidenceStatus;
+  sources: string[];
+  explanation: string;
+};
 
 export type Receipt = {
   slug: string;
@@ -13,12 +28,17 @@ export type Receipt = {
   status: "Pagado" | "Pendiente";
   usage: number;
   note: string;
-  charges: {
-    label: string;
-    amount: number;
-    kind: "plan" | "extra" | "adjustment";
-  }[];
+  charges: BillItem[];
   explanation: string;
   evidence: string[];
   file: string;
+};
+
+export type Bill = Receipt;
+
+export type BillAnalysis = {
+  current: Receipt;
+  previous: Receipt;
+  difference: number;
+  evidence: Evidence;
 };
