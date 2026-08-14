@@ -8,5 +8,5 @@ export default function CaseCard({ item, onOpen }: { item: HandoffCase; onOpen: 
   const isIncoming = ["requested", "CALLBACK_REQUESTED", "CALLING_AGENT"].includes(item.callbackStatus);
   const phoneDigits = item.line.replace(/\D/g, "");
   const protectedPhone = item.customerPhoneMasked ?? (phoneDigits ? `••••••${phoneDigits.slice(-3)}` : "Línea protegida");
-  return <button className={`advisor-case ${isIncoming ? "incoming" : ""}`} onClick={onOpen}><span><strong>{item.id}</strong><small>{item.customerName} · {protectedPhone}</small></span><p>{item.question}<small>{callLabels[item.callbackStatus] ?? (item.contactPreference === "callback" ? "Atención por llamada" : "Caso digital")} · {item.billingContext.evidenceStatus}</small></p><b className={item.status}>{item.status}</b>{isIncoming && <em>LLAMADA ENTRANTE</em>}</button>;
+  return <button className={`advisor-case ${isIncoming ? "incoming" : ""}`} onClick={onOpen}><span><strong>{item.id}</strong><small>{item.customerName} · {protectedPhone}</small></span><p><b>{item.question}</b><small>{callLabels[item.callbackStatus] ?? (item.contactPreference === "callback" ? "Atención por llamada" : "Caso digital")} · {item.billingContext.evidenceStatus}</small></p><b className={item.status}>{item.status}</b>{isIncoming && <em>NUEVO</em>}</button>;
 }

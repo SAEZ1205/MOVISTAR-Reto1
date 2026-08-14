@@ -17,6 +17,7 @@ function classify(message: string): { intent: Intent; month?: string } {
     [/benefici|inclui|gratis|tengo en mi plan/, "benefits"],
     [/oferta|promo|recomiend|bolsa extra/, "offer"],
     [/prorr|parte proporcional/, "proration"],
+    [/reconex|reconexion|recuperar.*servicio/, "reconnection_demo"],
     [/descuento.*termin|promocion.*termin|fin.*descuento/, "discount_demo"],
     [/pagar|pagado|pendiente|vence|vencimiento/, "payment"],
     [/plan|tarifa|precio mensual/, "plan"],
@@ -41,7 +42,8 @@ function localReply(message: string): LuciaReply {
   if (intent === "payment") { answer = `El recibo de agosto por ${money(currentReceipt.amount)} está pendiente y vence el ${currentReceipt.due}.`; source = "Estado y vencimiento del recibo"; }
   if (intent === "receipts") { answer = `Tienes seis recibos de marzo a agosto. Puedes abrir o descargar cada PDF desde el historial.`; source = "Historial verificado de seis recibos"; }
   if (intent === "proration") { answer = "En mayo se cobraron S/2.50 por cinco días de Protección Móvil. Fue un prorrateo: solo se cobró el tiempo activo."; source = "Recibo mayo · Orden PRO-1105"; }
-  if (intent === "discount_demo") { answer = "En esta cuenta no aparece un descuento vencido, así que no atribuiré el aumento a esa causa."; source = "Seis recibos revisados · Sin coincidencia"; }
+  if (intent === "reconnection_demo") { answer = "Caso demo: el servicio fue reconectado después de regularizar la deuda y el recibo muestra un cargo de S/10.00. LucIA relacionó el cargo con la fecha de reconexión; no lo calculó por su cuenta."; source = "BRAINY_RECONEXIONESV3 · Orden REC-0812 · Escenario demo"; }
+  if (intent === "discount_demo") { answer = "Caso demo: el descuento promocional de S/10.00 terminó al cerrar julio. En agosto volvió a cobrarse el precio regular del plan, por eso el total aumentó exactamente S/10.00."; source = "FACTURACION-CLIENTES · Vigencia PROMO-50 · Escenario demo"; }
   if (intent === "receipt_month" && month) { const receipt = receipts.find((item) => item.slug === month)!; answer = `En ${receipt.month} el total fue ${money(receipt.amount)}. ${receipt.explanation}`; source = receipt.evidence.join(" · "); }
   return { answer, source, intent, needsResolutionCheck: intent !== "unknown" };
 }

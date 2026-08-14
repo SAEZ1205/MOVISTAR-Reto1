@@ -44,9 +44,9 @@ En Windows también puedes ejecutar `INICIAR_EN_WINDOWS.bat`.
 ## Flujo principal de la demo
 
 1. Entra a **Recibo** desde la barra inferior.
-2. Pulsa la tarjeta o el botón flotante **Pregúntale a LucIA** para abrir el chat emergente.
-3. Entra a **Ver análisis completo del recibo** para revisar la diferencia, el desglose, la evidencia y la trazabilidad.
-4. Pregunta, por ejemplo: `xq me vino mas karo`.
+2. Pulsa **Entender este recibo con LucIA** para abrir el chat emergente.
+3. Abre **Modo demo** y elige reconexión, fin de descuento, prorrateo o dashboard del asesor.
+4. También puedes preguntar libremente, por ejemplo: `xq me vino mas karo`.
 5. Si confirmas que la explicación resolvió la duda, se habilita una oferta controlada.
 6. Si todavía tienes dudas, elige **Quiero que me llamen** o **Solo enviar el caso**.
 7. Abre `/?modo=asesor` para ver la bandeja y el detalle que recibe el Call Center.
@@ -116,9 +116,10 @@ El siguiente paso de backend es reemplazar `backend/data/demo/billing_data.json`
 Plivo fue retirado porque no está disponible para el equipo. El backend de `backend/callcenter/` ofrece dos modos:
 
 - `CALL_PROVIDER=simulation`: demuestra todo el recorrido sin gastar saldo ni depender de disponibilidad regional.
-- `CALL_PROVIDER=telnyx`: llama primero al asesor, lee el resumen por TTS, espera el dígito `1`, llama al cliente y une ambas llamadas.
+- `CALL_PROVIDER=telnyx` + `CALL_FLOW=summary_only`: llama al asesor, lee el resumen por TTS, espera el dígito `1` y termina. Es la primera prueba recomendada.
+- `CALL_PROVIDER=telnyx` + `CALL_FLOW=bridge`: después de la aceptación llama al cliente y une ambas llamadas.
 
-El backend incluye API central de casos, polling del dashboard, estados de llamada, notas, resolución y exportación CSV. El frontend conserva `localStorage` únicamente como fallback cuando no existe un backend configurado.
+El backend incluye API central de casos, polling del dashboard, estados de llamada, notas, resolución y exportación CSV compatible con Excel. La bandeja incluye búsqueda, filtros y paginación. El frontend conserva `localStorage` únicamente como fallback cuando no existe un backend configurado.
 
 Inicio del backend:
 

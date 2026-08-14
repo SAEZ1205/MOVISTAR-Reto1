@@ -16,7 +16,12 @@ function client() {
 }
 
 export function telnyxConfigured() {
-  return Boolean(process.env.TELNYX_API_KEY && process.env.TELNYX_CONNECTION_ID && process.env.TELNYX_FROM_NUMBER && process.env.ADVISOR_PHONE && process.env.DEMO_CLIENT_PHONE && process.env.PUBLIC_BASE_URL);
+  const bridgeReady = telnyxCallFlow() !== "bridge" || Boolean(process.env.DEMO_CLIENT_PHONE);
+  return Boolean(process.env.TELNYX_API_KEY && process.env.TELNYX_CONNECTION_ID && process.env.TELNYX_FROM_NUMBER && process.env.ADVISOR_PHONE && process.env.PUBLIC_BASE_URL && bridgeReady);
+}
+
+export function telnyxCallFlow() {
+  return process.env.CALL_FLOW === "bridge" ? "bridge" : "summary_only";
 }
 
 export function encodeClientState(caseId, leg) {
@@ -71,6 +76,10 @@ export async function dialCustomer(item) {
 
 export async function bridgeCalls(customerCallControlId, advisorCallControlId) {
   return client().calls.actions.bridge(customerCallControlId, { call_control_id: advisorCallControlId });
+}
+
+export async function hangupCall(callControlId) {
+  return client().calls.actions.hangup(callControlId);
 }
 
 export function unwrapWebhook(rawBody, headers) {

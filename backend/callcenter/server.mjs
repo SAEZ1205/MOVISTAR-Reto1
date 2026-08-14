@@ -11,6 +11,8 @@ import {
   dialAdvisor,
   dialCustomer,
   gatherAdvisor,
+  hangupCall,
+  telnyxCallFlow,
   telnyxConfigured,
   unwrapWebhook,
 } from "./telnyxService.mjs";
@@ -200,6 +202,12 @@ async function handleTelnyxEvent(envelope) {
   if (eventType === "call.gather.ended" && state.leg === "advisor") {
     if (payload.digits !== "1") return updateCase(item.id, { callbackStatus: "AGENT_NO_ANSWER", callError: "El asesor no aceptó el caso." });
     item = await updateCase(item.id, { status: "assigned", callbackStatus: "AGENT_ACCEPTED", assignedAgent: "Asesor Demo", advisorCallControlId: payload.call_control_id });
+    if (telnyxCallFlow() === "summary_only") {
+      const now = new Date().toISOString();
+      await updateCase(item.id, { callbackStatus: "CALL_COMPLETED", callEndedAt: now, callDurationSeconds: 0 });
+      await hangupCall(payload.call_control_id);
+      return;
+    }
     const customerCall = await dialCustomer(item);
     await updateCase(item.id, { callbackStatus: "CALLING_CUSTOMER", customerCallControlId: customerCall?.call_control_id ?? null });
     return;

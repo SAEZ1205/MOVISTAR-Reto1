@@ -1,4 +1,5 @@
 import MonthlyBillChart from "@/src/components/cliente/MonthlyBillChart";
+import DemoScenarioMenu from "@/src/components/cliente/DemoScenarioMenu";
 import Card from "@/src/components/shared/Card";
 import Header from "@/src/components/shared/Header";
 import Icon from "@/src/components/shared/Icon";
@@ -11,6 +12,8 @@ type Props = {
   onOpenChat: () => void;
   onConsumption: () => void;
   onHistory: () => void;
+  onDemoScenario: (question: string) => void;
+  onAdvisor: () => void;
   onSelectReceipt: (receipt: Receipt) => void;
   showAlert: boolean;
   dismissAlert: () => void;
@@ -22,6 +25,8 @@ export default function MisRecibos({
   onOpenChat,
   onConsumption,
   onHistory,
+  onDemoScenario,
+  onAdvisor,
   onSelectReceipt,
   showAlert,
   dismissAlert,
@@ -58,23 +63,17 @@ export default function MisRecibos({
           </div>
         </Card>
 
-        {showAlert && (
-          <aside className="receipt-change-notice">
-            <Icon name="chart" size={22} />
-            <span><strong>Este mes pagas {money(increase)} más</strong><small>LucIA encontró los cobros que explican el cambio.</small></span>
-            <button className="receipt-change-action" onClick={onAssistant}>Ver por qué</button>
-            <button className="receipt-change-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={16} /></button>
-          </aside>
-        )}
+        {showAlert && <aside className="receipt-change-notice compact"><Icon name="chart" size={20} /><span><strong>{money(increase)} más que en julio</strong><small>La explicación está en el botón principal de LucIA.</small></span><button className="receipt-change-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={16} /></button></aside>}
 
         <section className="receipt-guide" aria-label="Cómo revisar tu recibo">
-          <span className="receipt-guide-heading"><small>ENCUENTRA RÁPIDO LO QUE BUSCAS</small><strong>¿Qué quieres revisar?</strong></span>
+          <span className="receipt-guide-heading"><small>GESTIONES DEL RECIBO</small><strong>Revisa solo lo que necesitas</strong></span>
           <div className="receipt-quick-actions">
-            <button onClick={onAssistant}><i className="ai"><Icon name="sparkles" /></i><span><strong>¿Por qué cambió?</strong><small>Explicación con evidencia</small></span><Icon name="arrow-right" size={19} /></button>
             <button onClick={onConsumption}><i className="usage"><Icon name="chart" /></i><span><strong>Mi consumo</strong><small>Datos usados día por día</small></span><Icon name="arrow-right" size={19} /></button>
             <button onClick={onHistory}><i className="history"><Icon name="receipt" /></i><span><strong>Recibos anteriores</strong><small>Compara los últimos 6 meses</small></span><Icon name="arrow-right" size={19} /></button>
           </div>
         </section>
+
+        <DemoScenarioMenu onScenario={onDemoScenario} onAdvisor={onAdvisor} />
 
         <details className="receipt-disclosure">
           <summary><span><i><Icon name="phone" /></i><b><strong>Mi plan y adicionales</strong><small>Revisa qué incluye el total</small></b></span><Icon name="chevron-down" /></summary>

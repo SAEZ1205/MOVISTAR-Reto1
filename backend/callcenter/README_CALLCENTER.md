@@ -34,18 +34,25 @@ VITE_CALLCENTER_API_URL=http://localhost:4000
 
 Prueba `http://localhost:4000/api/health`, luego entra a `http://localhost:3000/?modo=asesor`.
 
+## Primera llamada real: solo resumen al asesor
+
+El modo más simple para tu demo es `CALL_FLOW=summary_only`: cuando LucIA deriva el caso, Telnyx llama a `ADVISOR_PHONE`, lee el resumen por voz, espera que presiones `1` y termina. No necesita un segundo celular.
+
 ## Activar Telnyx de forma segura
 
-1. Crea una cuenta Telnyx y genera una API Key.
-2. En **Voice → Programmable Voice**, crea una Voice API Application / Call Control Connection.
-3. Copia el `TELNYX_CONNECTION_ID`.
-4. Compra o configura un número legítimo como `TELNYX_FROM_NUMBER`. No suplantes un número de Movistar.
-5. En el Outbound Voice Profile habilita Perú si la cuenta y el destino lo permiten. Algunas cuentas requieren verificación adicional.
-6. Define límites de gasto bajos para la demo.
-7. Usa solo dos celulares controlados por el equipo en `ADVISOR_PHONE` y `DEMO_CLIENT_PHONE`.
-8. Publica el backend por HTTPS y configura `PUBLIC_BASE_URL`.
-9. En Telnyx configura el webhook `https://TU-BACKEND/webhooks/telnyx` con Voice API v2.
-10. Agrega `TELNYX_PUBLIC_KEY` para validar la firma y cambia `CALL_PROVIDER=telnyx`.
+1. Crea tu cuenta en <https://telnyx.com/sign-up> y entra a Mission Control.
+2. Completa la verificación de cuenta y agrega saldo controlado. Telnyx exige verificación para asociar conexiones y perfiles de salida.
+3. En tu avatar abre **API Keys**, pulsa **Create API Key**, pon una etiqueta como `LucIA demo` y guarda la clave: Telnyx solo la muestra completa una vez.
+4. Ve a **Real-Time Communication → Voice → Programmable Voice → Voice API Applications** y crea una aplicación llamada `LucIA Call Center`.
+5. Copia el identificador de la aplicación/conexión en `TELNYX_CONNECTION_ID`.
+6. En **Numbers**, busca y compra un número con voz. Ese número va en `TELNYX_FROM_NUMBER`; no suplantes un número de Movistar.
+7. Crea o edita un **Outbound Voice Profile**, habilita Perú como destino y asocia la Voice Application. Algunas cuentas o destinos requieren aprobación adicional.
+8. Coloca tu celular en `ADVISOR_PHONE` con formato internacional, por ejemplo `+519XXXXXXXX`. Para la primera prueba deja `CALL_FLOW=summary_only`.
+9. Publica temporalmente el puerto 4000 por HTTPS y configura `PUBLIC_BASE_URL`.
+10. En la Voice Application usa `https://TU-URL/webhooks/telnyx` como webhook de Voice API v2.
+11. Copia la public key de firma a `TELNYX_PUBLIC_KEY`, cambia `CALL_PROVIDER=telnyx` y conserva `CALL_FLOW=summary_only`.
+
+Referencias oficiales: [inicio de Voice API](https://developers.telnyx.com/docs/voice/programmable-voice/voice-api-fundamentals), [creación de API Keys](https://developers.telnyx.com/development/api-fundamentals/create-api-keys), [compra de números](https://support.telnyx.com/en/articles/4380325-search-and-buy-numbers) y [verificación de cuenta](https://support.telnyx.com/en/articles/1130595-account-verification).
 
 El SDK usado es `telnyx@7`. Las llamadas se realizan con `client.calls.dial`; las acciones actuales usan `client.calls.actions.gatherUsingSpeak` y `client.calls.actions.bridge`.
 
@@ -55,16 +62,35 @@ El SDK usado es `telnyx@7`. Las llamadas se realizan con `client.calls.dial`; la
 ngrok http 4000
 ```
 
-Coloca la URL obtenida en `PUBLIC_BASE_URL` y en el webhook de Telnyx. Si ngrok cambia la URL, actualiza ambos valores y reinicia el backend.
+Si todavía no tienes ngrok: crea una cuenta en <https://ngrok.com>, descarga la versión de Windows, descomprime `ngrok.exe` y agrega el authtoken mostrado por ngrok con `ngrok config add-authtoken TU_TOKEN`.
 
-## Recorrido de la llamada real
+Coloca la URL HTTPS obtenida en `PUBLIC_BASE_URL` y en el webhook de Telnyx. Si ngrok cambia la URL, actualiza ambos valores y reinicia el backend.
+
+Ejemplo final de `.env` para recibir tú mismo el resumen:
+
+```text
+PORT=4000
+CALL_PROVIDER=telnyx
+CALL_FLOW=summary_only
+TELNYX_API_KEY=TU_API_KEY
+TELNYX_PUBLIC_KEY=TU_PUBLIC_KEY
+TELNYX_CONNECTION_ID=TU_CONNECTION_ID
+TELNYX_FROM_NUMBER=+1XXXXXXXXXX
+ADVISOR_PHONE=+519XXXXXXXX
+PUBLIC_BASE_URL=https://TU-SUBDOMINIO.ngrok-free.app
+FRONTEND_ORIGIN=http://localhost:3000
+```
+
+Nunca envíes ese `.env` por chat ni lo subas a GitHub.
+
+## Recorrido de la llamada real: resumen
 
 1. `POST /api/handoff` crea el caso y llama al asesor.
 2. Al contestar, el asesor escucha un resumen privado de 30–45 segundos.
 3. El asesor presiona `1`.
-4. El backend llama al celular del cliente de prueba.
-5. Cuando contesta, Telnyx une ambos legs.
-6. Al colgar, el caso queda `CALL_COMPLETED`; el asesor decide cuándo marcarlo `resolved`.
+4. El caso queda aceptado y la llamada termina.
+
+Para conectar asesor y cliente, cambia a `CALL_FLOW=bridge`, agrega otro celular controlado en `DEMO_CLIENT_PHONE` y repite la prueba. En ese modo Telnyx llama al cliente después de que el asesor presiona `1` y une ambas llamadas.
 
 ## API
 
