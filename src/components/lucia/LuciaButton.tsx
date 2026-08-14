@@ -5,8 +5,8 @@ export default function LuciaButton({ onClick, compact = false }: { onClick: () 
   return (
     <button className={compact ? "lucia-entry compact" : "lucia-entry"} onClick={onClick}>
       <LuciaImage compact />
-      <span><small>NUEVO · INTELIGENCIA ARTIFICIAL</small><strong>Entiende tu recibo con LucIA</strong><p>Te explico qué cambió usando datos verificados.</p></span>
-      <Icon name="arrow-right" />
+      <span className="lucia-entry-copy"><small><b>IA</b> NUEVO EN MI RECIBO</small><strong>Entiende tu recibo con LucIA</strong><p>Descubre qué cambió y de dónde sale cada monto.</p></span>
+      <span className="lucia-entry-arrow"><Icon name="arrow-right" /></span>
     </button>
   );
 }

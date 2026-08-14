@@ -13,7 +13,7 @@ export default function BottomNavigation({ active, onChange }: { active: MainSec
   return (
     <nav className="bottom-navigation" aria-label="Navegación principal">
       {items.map((item) => (
-        <button key={item.id} className={`${active === item.id ? "active" : ""} ${item.id === "beneficios" ? "featured" : ""}`} onClick={() => onChange(item.id)}>
+        <button key={item.id} className={`${active === item.id ? "active" : ""} ${item.id === "beneficios" ? "featured" : ""}`} onClick={() => onChange(item.id)} aria-current={active === item.id ? "page" : undefined}>
           <span><Icon name={item.icon} size={24} /></span><small>{item.label}</small>
         </button>
       ))}

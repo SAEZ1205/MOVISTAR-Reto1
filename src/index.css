@@ -2,12 +2,12 @@
 
 :root {
   --movistar: #019be1;
-  --movistar-dark: #0787c6;
-  --movistar-soft: #e3f5fc;
+  --movistar-dark: #007fbd;
+  --movistar-soft: #e2f5fc;
   --ink: #24282c;
   --muted: #70777d;
   --line: #d9dde0;
-  --surface: #f6f6f6;
+  --surface: #f4f5f6;
   --white: #fff;
   --green: #51b916;
   --purple: #a63aa6;
@@ -17,7 +17,7 @@
 
 * { box-sizing: border-box; }
 html { background: #e8edf0; scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: #e8edf0; font-family: Inter, "Segoe UI", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; color: var(--ink); background: #e8edf0; font-family: Inter, "Segoe UI", Arial, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { color: inherit; }
@@ -25,9 +25,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 h1, h2, h3, p { text-wrap: pretty; }
 
 .app-stage { min-height: 100vh; }
-.mobile-app { position: relative; width: min(100%, 520px); min-height: 100vh; margin: 0 auto; padding-bottom: calc(88px + env(safe-area-inset-bottom)); overflow: hidden; background: var(--surface); box-shadow: 0 0 45px rgba(16, 45, 62, .16); }
-.screen-content { padding: 26px 22px 42px; }
-.ui-card { border: 1px solid #d9d9d9; border-radius: 22px; background: var(--white); box-shadow: 0 4px 13px rgba(23, 40, 49, .08); }
+.mobile-app { position: relative; width: min(100%, 520px); min-height: 100vh; margin: 0 auto; padding-bottom: calc(92px + env(safe-area-inset-bottom)); overflow: hidden; background: var(--surface); box-shadow: 0 0 45px rgba(16, 45, 62, .16); }
+.screen-content { padding: 24px 21px 48px; }
+.ui-card { border: 1px solid #d7dadd; border-radius: 20px; background: var(--white); box-shadow: 0 4px 12px rgba(23, 40, 49, .07); }
 .ui-button { min-height: 43px; padding: 0 18px; border: 1px solid transparent; border-radius: 999px; font-weight: 750; cursor: pointer; }
 .ui-button.primary { color: white; background: var(--movistar); }
 .ui-button.secondary { color: var(--movistar-dark); border-color: var(--movistar); background: white; }
@@ -42,25 +42,26 @@ h1, h2, h3, p { text-wrap: pretty; }
 .ui-loader i { width: 18px; height: 18px; border: 2px solid #d8e4ea; border-top-color: var(--movistar); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.screen-header { position: sticky; top: 0; z-index: 30; height: 86px; display: grid; grid-template-columns: 54px 1fr 54px; align-items: center; color: white; background: var(--movistar); }
+.screen-header { position: sticky; top: 0; z-index: 30; height: 82px; display: grid; grid-template-columns: 62px 1fr 62px; align-items: center; color: white; background: var(--movistar); box-shadow: 0 1px rgba(255,255,255,.12); }
 .screen-header button { width: 54px; height: 54px; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
-.screen-header h1 { margin: 0; text-align: center; font-size: 25px; font-weight: 430; letter-spacing: -.02em; }
+.screen-header h1 { margin: 0; text-align: center; font-size: 24px; font-weight: 440; letter-spacing: -.02em; }
 
-.account-panel { position: relative; z-index: 2; padding: 26px 22px 24px; border-radius: 0 0 26px 26px; color: white; background: var(--movistar); }
+.account-panel { position: relative; z-index: 2; padding: 24px 22px 25px; border-radius: 0 0 26px 26px; color: white; background: var(--movistar); }
 .account-panel header { min-height: 54px; display: grid; grid-template-columns: 45px 1fr 45px; align-items: center; }
 .account-panel header button { width: 45px; height: 45px; display: grid; place-items: center; border: 0; color: white; background: transparent; cursor: pointer; }
 .account-panel header h1 { margin: 0; font-size: clamp(24px, 7vw, 31px); text-align: center; letter-spacing: -.025em; }
-.gold-row { height: 66px; display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 0 20px; border-radius: 34px; background: linear-gradient(100deg, #b58226, #e4bb54); box-shadow: inset 0 1px rgba(255,255,255,.26); }
+.gold-row { height: 64px; display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 0 18px 0 10px; border-radius: 34px; background: linear-gradient(100deg, #b47b20, #edc45d); box-shadow: inset 0 1px rgba(255,255,255,.28), 0 3px 10px rgba(111,72,9,.14); }
 .gold-row > span, .gold-row button { display: flex; align-items: center; gap: 9px; }
 .gold-row > span { font-size: 18px; font-weight: 800; }
+.gold-row > span i { width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(255,255,255,.13); box-shadow: inset 0 0 0 4px rgba(255,255,255,.08); }
 .gold-row button { border: 0; color: white; background: transparent; font-weight: 700; cursor: pointer; }
-.line-row { min-height: 82px; display: grid; grid-template-columns: 46px 1fr 32px; align-items: center; margin-top: 16px; padding: 10px 20px; border-radius: 15px; color: #1c2328; background: white; }
+.line-row { width: 100%; min-height: 82px; display: grid; grid-template-columns: 46px 1fr 32px; align-items: center; margin-top: 16px; padding: 10px 20px; border: 0; border-radius: 15px; color: #1c2328; background: white; text-align: left; cursor: pointer; box-shadow: 0 3px 10px rgba(0,72,106,.08); }
 .line-row > svg { color: var(--movistar); }
 .line-row span { display: flex; flex-direction: column; gap: 3px; }
 .line-row strong { font-size: 20px; letter-spacing: .08em; }
 .line-row small { color: #858585; font-size: 16px; }
 
-.home-content { padding: 22px 21px 42px; background: white; }
+.home-content { padding: 22px 21px 48px; background: white; }
 .promo-banner { position: relative; height: 155px; overflow: hidden; border-radius: 15px; background: #066daf; }
 .promo-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,127,190,.96) 0%, rgba(0,133,198,.82) 42%, rgba(0,104,170,.05) 78%); }
 .promo-banner img { width: 100%; height: 100%; object-fit: cover; object-position: 68% center; }
@@ -72,14 +73,15 @@ h1, h2, h3, p { text-wrap: pretty; }
 .carousel-dots i { width: 11px; height: 11px; border-radius: 50%; background: #aaa; }
 .carousel-dots .active { width: 28px; border-radius: 9px; background: var(--movistar); }
 .home-shortcuts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.home-shortcuts button { min-height: 102px; display: flex; align-items: center; gap: 15px; padding: 17px; border: 1px solid #d4d4d4; border-radius: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,.05); text-align: left; cursor: pointer; }
+.home-shortcuts button { min-height: 104px; display: flex; align-items: center; gap: 15px; padding: 17px; border: 1px solid #d3d7da; border-radius: 14px; background: white; box-shadow: 0 3px 8px rgba(0,0,0,.05); text-align: left; cursor: pointer; }
 .home-shortcuts i { width: 52px; height: 52px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: white; background: var(--movistar); }
 .home-shortcuts strong { font-size: 17px; line-height: 1.35; }
 .consumption-home { margin-top: 27px; }
 .consumption-home h2, .access-title { margin: 0; font-size: 26px; letter-spacing: -.025em; }
 .consumption-home > p { margin: 5px 0 18px; color: #8a8a8a; font-size: 15px; }
-.consumption-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.consumption-cards article { min-height: 198px; padding: 17px 10px; border: 1px solid #d6d6d6; border-radius: 13px; text-align: center; background: white; }
+.consumption-cards { display: flex; gap: 14px; margin-right: -21px; padding-right: 21px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.consumption-cards::-webkit-scrollbar { display: none; }
+.consumption-cards article { min-height: 198px; flex: 0 0 calc(50% - 7px); padding: 17px 10px; border: 1px solid #d6dadd; border-radius: 14px; text-align: center; background: white; scroll-snap-align: start; }
 .consumption-cards article > strong { display: block; min-height: 42px; font-size: 15px; }
 .consumption-cards article > span { position: relative; width: 132px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; margin: 7px auto 0; }
 .consumption-cards article > span i { position: absolute; inset: 0; border-radius: 70px 70px 0 0; background: conic-gradient(from 270deg at 50% 100%, var(--green) var(--progress), #e5e8e9 0); clip-path: inset(0 0 48% 0); }
@@ -87,7 +89,7 @@ h1, h2, h3, p { text-wrap: pretty; }
 .consumption-cards article b, .consumption-cards article small { position: relative; z-index: 2; }
 .consumption-cards article b { font-size: 19px; }
 .consumption-cards article small { color: #888; }
-.home-bill { min-height: 86px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border: 1px solid #d8d8d8; border-radius: 13px; }
+.home-bill { min-height: 88px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border: 1px solid #d5dadd; border-radius: 14px; background: #fbfdfe; }
 .home-bill > svg { color: var(--movistar); }
 .home-bill span { display: flex; flex-direction: column; gap: 2px; }
 .home-bill small { color: #7c7c7c; }
@@ -99,10 +101,10 @@ h1, h2, h3, p { text-wrap: pretty; }
 .direct-grid strong { font-size: 16px; }
 .direct-grid small { color: #7a7a7a; }
 
-.month-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 17px; }
+.month-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 2px 0 18px; }
 .month-tabs button { min-height: 52px; border: 0; border-radius: 18px; color: #4f555a; background: transparent; font-size: 17px; cursor: pointer; }
-.month-tabs .active { color: var(--movistar-dark); background: #e5f5fc; font-weight: 850; }
-.current-bill-card { overflow: hidden; }
+.month-tabs .active { color: var(--movistar-dark); background: #dff3fc; font-weight: 850; box-shadow: inset 0 0 0 1px rgba(1,155,225,.05); }
+.current-bill-card { overflow: hidden; box-shadow: 0 5px 14px rgba(19,50,65,.08); }
 .bill-status { min-height: 106px; display: flex; align-items: center; justify-content: space-between; padding: 21px 22px; }
 .bill-status > span { display: flex; flex-direction: column; gap: 5px; }
 .bill-status > span:last-child { text-align: right; }
@@ -116,26 +118,28 @@ h1, h2, h3, p { text-wrap: pretty; }
 .current-bill-card dt { color: #656565; }
 .current-bill-card dd { margin: 0; text-align: right; }
 .bill-main-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px 20px; }
-.bill-main-actions button { min-height: 44px; border: 1px solid var(--movistar); border-radius: 999px; color: var(--movistar); background: white; font-weight: 800; cursor: pointer; }
+.bill-main-actions button { min-height: 46px; border: 1px solid var(--movistar); border-radius: 999px; color: var(--movistar); background: white; font-weight: 800; cursor: pointer; }
 .bill-main-actions button:first-child { color: white; background: var(--movistar); }
-.lucia-entry { width: 100%; min-height: 112px; display: grid; grid-template-columns: 68px 1fr 25px; align-items: center; gap: 12px; margin: 22px 0; padding: 14px 17px; border: 2px solid var(--movistar); border-radius: 20px; color: white; background: linear-gradient(118deg, #008dd2, #03b4e9); box-shadow: 0 9px 24px rgba(1,155,225,.22); text-align: left; cursor: pointer; }
-.lucia-entry > span:nth-child(2) { display: flex; flex-direction: column; gap: 3px; }
-.lucia-entry small { color: #dcf7ff; font-size: 8px; font-weight: 900; letter-spacing: .05em; }
-.lucia-entry strong { font-size: 18px; line-height: 1.15; }
-.lucia-entry p { margin: 0; color: #e7faff; font-size: 12px; line-height: 1.35; }
-.lucia-entry.compact { margin: 16px 0; color: #0d5a7e; border-color: #bbe7f8; background: #edf9fe; box-shadow: none; }
-.lucia-entry.compact small { color: #1489b9; }
-.lucia-entry.compact p { color: #517b8c; }
+.lucia-entry { position: relative; width: 100%; min-height: 116px; display: grid; grid-template-columns: 66px 1fr 34px; align-items: center; gap: 12px; margin: 22px 0; padding: 15px 14px 15px 16px; overflow: hidden; border: 2px solid var(--movistar); border-radius: 19px; color: #17495f; background: linear-gradient(120deg, #f4fbfe 0%, #ddf4fd 100%); box-shadow: 0 7px 18px rgba(1,155,225,.14); text-align: left; cursor: pointer; }
+.lucia-entry::after { content: ""; position: absolute; right: -34px; bottom: -52px; width: 128px; height: 128px; border-radius: 50%; background: rgba(1,155,225,.09); pointer-events: none; }
+.lucia-entry-copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; }
+.lucia-entry small { display: flex; align-items: center; gap: 6px; color: #087da9; font-size: 9px; font-weight: 900; letter-spacing: .045em; }
+.lucia-entry small b { padding: 3px 6px; border-radius: 7px; color: white; background: var(--movistar); font-size: 9px; }
+.lucia-entry strong { color: #183f50; font-size: 18px; line-height: 1.15; }
+.lucia-entry p { margin: 0; color: #57717d; font-size: 12px; line-height: 1.35; }
+.lucia-entry-arrow { position: relative; z-index: 1; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--movistar); }
+.lucia-entry.compact { margin: 16px 0; border-color: #b9e3f4; background: white; box-shadow: none; }
 .lucia-avatar { position: relative; width: 66px; height: 66px; display: inline-grid; place-items: center; overflow: hidden; flex: 0 0 auto; border: 3px solid white; border-radius: 50%; background: white; box-shadow: 0 4px 12px rgba(0,55,87,.2); }
 .lucia-avatar img { width: 105%; height: 105%; object-fit: contain; }
 .lucia-avatar i { position: absolute; right: 1px; bottom: 5px; width: 12px; height: 12px; border: 2px solid white; border-radius: 50%; background: #31bc5a; }
 .lucia-avatar.compact { width: 52px; height: 52px; }
-.change-alert { min-height: 81px; display: grid; grid-template-columns: 34px 1fr 26px; align-items: center; gap: 10px; margin-bottom: 27px; padding: 13px 15px; border: 2px solid var(--movistar); border-radius: 18px; color: #354850; background: #e9f7fd; }
-.change-alert > svg { color: var(--movistar); }
-.change-alert span { display: flex; flex-direction: column; gap: 3px; }
-.change-alert small { color: #66818c; }
-.change-alert button { border: 0; background: transparent; cursor: pointer; }
-.receipt-section-title, .section-heading h2 { margin: 25px 0 14px; font-size: 25px; font-weight: 450; }
+.change-alert { min-height: 84px; display: grid; grid-template-columns: 1fr 36px; align-items: stretch; margin-bottom: 28px; overflow: hidden; border: 1px solid #9bd8ef; border-radius: 18px; color: #354850; background: #eaf7fd; box-shadow: 0 3px 10px rgba(1,155,225,.08); }
+.change-alert-content { min-width: 0; display: grid; grid-template-columns: 34px 1fr 24px; align-items: center; gap: 10px; padding: 13px 8px 13px 15px; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.change-alert-content > svg { color: var(--movistar); }
+.change-alert-content span { display: flex; flex-direction: column; gap: 3px; }
+.change-alert-content small { color: #66818c; line-height: 1.3; }
+.change-alert-close { width: 36px; border: 0; color: #667a83; background: transparent; cursor: pointer; }
+.receipt-section-title, .section-heading h2 { margin: 27px 0 14px; font-size: 24px; font-weight: 460; }
 .plan-card { overflow: hidden; }
 .plan-card > div, .plan-card > button { width: 100%; min-height: 90px; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 12px; padding: 15px 20px; border: 0; background: white; text-align: left; }
 .plan-card > button { min-height: 72px; border-top: 1px solid #ddd; cursor: pointer; }
@@ -161,12 +165,15 @@ h1, h2, h3, p { text-wrap: pretty; }
 .other-actions span { display: flex; flex-direction: column; gap: 4px; }
 .other-actions small { color: #888; line-height: 1.3; }
 
-.assistant-hero { position: relative; min-height: 180px; display: grid; grid-template-columns: 48px 1fr; gap: 13px; padding: 23px; overflow: hidden; border-radius: 22px; color: white; background: linear-gradient(135deg, #006cad, #00afe2); box-shadow: 0 12px 28px rgba(0,113,175,.22); }
-.assistant-hero > span { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; background: rgba(255,255,255,.16); }
+.assistant-hero { position: relative; min-height: 198px; display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 21px; overflow: hidden; border-radius: 22px; color: white; background: linear-gradient(135deg, #007bb9, #00aee5); box-shadow: 0 10px 25px rgba(0,113,175,.2); }
+.assistant-hero::after { content: ""; position: absolute; right: -60px; bottom: -85px; width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,.08); }
+.assistant-hero > .lucia-avatar { width: 54px; height: 54px; border-width: 2px; }
 .assistant-hero > div small { color: #d6f6ff; font-size: 9px; font-weight: 900; letter-spacing: .07em; }
 .assistant-hero h2 { margin: 7px 0; font-size: 24px; line-height: 1.05; }
 .assistant-hero p { margin: 0; color: #dff7ff; line-height: 1.5; font-size: 13px; }
 .assistant-hero .ui-badge { position: absolute; right: 16px; top: 15px; }
+.analysis-steps { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
+.analysis-steps span { display: inline-flex; align-items: center; gap: 4px; padding: 5px 7px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: white; background: rgba(255,255,255,.1); font-size: 9px; font-weight: 700; }
 .difference-card { display: grid; grid-template-columns: 1fr 30px 1fr auto; align-items: center; gap: 8px; margin-top: 18px; padding: 17px; }
 .difference-card span { display: flex; flex-direction: column; gap: 4px; }
 .difference-card small { color: #777; font-size: 10px; }
@@ -262,11 +269,12 @@ h1, h2, h3, p { text-wrap: pretty; }
 .visual-page.soporte .visual-grid button { min-height: 90px; grid-template-columns: 52px 1fr 24px; grid-template-rows: 1fr; align-items: center; border: 0; border-bottom: 1px solid #ddd; border-radius: 0; }
 .visual-page.soporte .visual-grid button > span { grid-column: auto; }
 
-.bottom-navigation { position: fixed; z-index: 50; left: 50%; bottom: 0; width: min(100%, 520px); height: calc(78px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5, 1fr); padding: 7px 6px env(safe-area-inset-bottom); border-top: 1px solid #e0e0e0; background: rgba(255,255,255,.97); box-shadow: 0 -7px 20px rgba(0,0,0,.07); transform: translateX(-50%); backdrop-filter: blur(16px); }
+.bottom-navigation { position: fixed; z-index: 50; left: 50%; bottom: 0; width: min(100%, 520px); height: calc(82px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 6px env(safe-area-inset-bottom); border-top: 1px solid #dedfe0; background: rgba(255,255,255,.98); box-shadow: 0 -5px 18px rgba(0,0,0,.07); transform: translateX(-50%); backdrop-filter: blur(16px); }
 .bottom-navigation button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; color: #646c70; background: transparent; cursor: pointer; }
 .bottom-navigation button > span { width: 37px; height: 32px; display: grid; place-items: center; }
 .bottom-navigation small { font-size: 11px; }
-.bottom-navigation button.active { color: var(--movistar); }
+.bottom-navigation button.active { color: var(--movistar); font-weight: 750; }
+.bottom-navigation button.active:not(.featured)::after { content: ""; position: absolute; top: -8px; width: 28px; height: 3px; border-radius: 0 0 4px 4px; background: var(--movistar); }
 .bottom-navigation button.featured > span { position: absolute; top: -30px; width: 62px; height: 62px; border: 4px solid white; border-radius: 50%; color: white; background: linear-gradient(135deg, #bf8723, #e6bd5b); box-shadow: 0 4px 11px rgba(139,96,20,.28); }
 .bottom-navigation button.featured small { margin-top: 35px; }
 
@@ -343,7 +351,12 @@ h1, h2, h3, p { text-wrap: pretty; }
   .home-shortcuts i { width: 44px; height: 44px; }
   .home-shortcuts strong { font-size: 14px; }
   .consumption-cards { gap: 9px; }
+  .consumption-cards article { flex-basis: calc(52% - 5px); }
   .consumption-cards article > span { width: 120px; }
+  .lucia-entry { grid-template-columns: 56px 1fr 30px; padding-left: 12px; gap: 9px; }
+  .lucia-entry .lucia-avatar { width: 54px; height: 54px; }
+  .lucia-entry strong { font-size: 16px; }
+  .lucia-entry p { font-size: 11px; }
   .difference-card { grid-template-columns: 1fr 22px 1fr; }
   .difference-card > b { grid-column: 1 / -1; justify-self: center; }
   .assistant-hero .ui-badge { display: none; }
@@ -354,5 +367,15 @@ h1, h2, h3, p { text-wrap: pretty; }
 }
 
 @media (min-width: 521px) {
-  .mobile-app { min-height: 100vh; }
+  .mobile-app { min-height: 100vh; border-left: 1px solid rgba(21,55,72,.08); border-right: 1px solid rgba(21,55,72,.08); }
+}
+
+@media (hover: hover) {
+  .ui-button:hover, .bill-main-actions button:hover, .home-shortcuts button:hover, .direct-grid button:hover, .other-actions button:hover, .visual-grid button:hover { filter: brightness(.98); }
+  .lucia-entry:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(1,155,225,.18); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button { transition: transform .16s ease, box-shadow .16s ease, filter .16s ease; }
+  button:active { transform: scale(.985); }
 }

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import BillBreakdown from "@/src/components/cliente/BillBreakdown";
 import ReceiptTrend from "@/src/components/cliente/ReceiptTrend";
 import LuciaButton from "@/src/components/lucia/LuciaButton";
+import LuciaImage from "@/src/components/lucia/LuciaImage";
 import Badge from "@/src/components/shared/Badge";
 import Button from "@/src/components/shared/Button";
 import Card from "@/src/components/shared/Card";
@@ -15,7 +16,7 @@ export default function EntiendeRecibo({ resolution, usedPercent, remaining, cur
     <div className="assistant-screen">
       <Header title="Entiende tu recibo" onBack={onBack} />
       <div className="screen-content">
-        <section className="assistant-hero"><span><Icon name="sparkles" /></span><div><small>ANÁLISIS CON EVIDENCIA</small><h2>Tu plan no subió de precio</h2><p>LucIA encontró dos servicios adicionales que explican exactamente el cambio.</p></div><Badge tone="green">Verificado</Badge></section>
+        <section className="assistant-hero"><LuciaImage compact /><div><small>LUCIA · ASISTENTE DE FACTURACIÓN</small><h2>Tu plan no subió de precio</h2><p>Encontré dos servicios adicionales que explican exactamente el cambio de agosto.</p><div className="analysis-steps"><span><Icon name="check" size={15} /> Comparado</span><span><Icon name="check" size={15} /> Verificado</span><span><Icon name="sparkles" size={15} /> Explicado</span></div></div><Badge tone="green">Verificado</Badge></section>
         <Card className="difference-card"><span><small>Recibo anterior</small><strong>{money(currentReceipt.previous)}</strong></span><Icon name="arrow-right" /><span><small>Recibo actual</small><strong>{money(currentReceipt.amount)}</strong></span><b>+{money(currentDelta)}</b></Card>
         <Card className="explanation-card"><div className="section-title"><span><small>DESGLOSE DEL TOTAL</small><h2>¿Qué cambió este mes?</h2></span><Badge tone="blue">0% inventado</Badge></div><p className="plain-explanation">Tu plan conserva el mismo precio. El aumento viene de un paquete de datos y un servicio activados durante el ciclo.</p><BillBreakdown /><div className="evidence-box"><Icon name="check" /><span><strong>Evidencia utilizada</strong><small>{currentReceipt.evidence.join(" · ")}</small></span></div></Card>
         <LuciaButton onClick={onOpenChat} compact />
