@@ -52,7 +52,7 @@ export default function App() {
     if (receiptView === "assistant") return <EntiendeRecibo resolution={resolution} usedPercent={usedPercent} remaining={remaining} currentDelta={currentDelta} onBack={() => setReceiptView("overview")} onHistory={() => setReceiptView("history")} onConsumption={() => setReceiptView("consumption")} onOpenChat={() => setShowChat(true)} onResolved={markResolved} onHuman={askForHuman} />;
     if (receiptView === "consumption") return <ConoceRecibo usedPercent={usedPercent} remaining={remaining} average={average} onBack={() => setReceiptView("assistant")} />;
     if (receiptView === "history") return <ReceiptHistory onBack={() => setReceiptView("overview")} onSelect={setSelectedReceipt} />;
-    return <MisRecibos onBack={() => navigate("inicio")} onAssistant={() => setReceiptView("assistant")} onHistory={() => setReceiptView("history")} onSelectReceipt={setSelectedReceipt} showAlert={showChangeAlert} dismissAlert={() => setShowChangeAlert(false)} />;
+    return <MisRecibos onBack={() => navigate("inicio")} onAssistant={() => setReceiptView("assistant")} onConsumption={() => setReceiptView("consumption")} onHistory={() => setReceiptView("history")} onSelectReceipt={setSelectedReceipt} showAlert={showChangeAlert} dismissAlert={() => setShowChangeAlert(false)} />;
   }, [section, receiptView, resolution, usedPercent, remaining, currentDelta, average, showChangeAlert]);
 
   function navigate(next: MainSection) {

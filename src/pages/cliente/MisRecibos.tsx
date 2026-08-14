@@ -6,7 +6,7 @@ import Icon from "@/src/components/shared/Icon";
 import { currentReceipt, money } from "@/src/services/billingService";
 import type { Receipt } from "@/src/types/billing";
 
-export default function MisRecibos({ onBack, onAssistant, onHistory, onSelectReceipt, showAlert, dismissAlert }: { onBack: () => void; onAssistant: () => void; onHistory: () => void; onSelectReceipt: (receipt: Receipt) => void; showAlert: boolean; dismissAlert: () => void }) {
+export default function MisRecibos({ onBack, onAssistant, onConsumption, onHistory, onSelectReceipt, showAlert, dismissAlert }: { onBack: () => void; onAssistant: () => void; onConsumption: () => void; onHistory: () => void; onSelectReceipt: (receipt: Receipt) => void; showAlert: boolean; dismissAlert: () => void }) {
   return (
     <div className="receipt-screen">
       <Header title="Mi recibo" onBack={onBack} />
@@ -19,6 +19,14 @@ export default function MisRecibos({ onBack, onAssistant, onHistory, onSelectRec
 
         <h2 className="receipt-section-title">Plan y adicionales</h2>
         <Card className="plan-card"><div><i><Icon name="phone" /></i><span><strong>Plan Móvil 40 GB</strong><small>Pertenece a tu plan contratado de agosto</small></span><b>S/59.90</b></div><button><i><Icon name="gift" /></i><span>Bonificaciones y adicionales</span><Icon name="chevron-down" /></button></Card>
+
+        <div className="section-heading receipt-tools-heading"><h2>Gestiona tu recibo</h2><small>Todo en un toque</small></div>
+        <div className="receipt-tools" aria-label="Accesos de recibo">
+          <button onClick={onAssistant}><i className="ai"><Icon name="sparkles" /></i><span><strong>Entender cobros</strong><small>Análisis verificado</small></span><Icon name="arrow-right" /></button>
+          <button onClick={onConsumption}><i className="usage"><Icon name="chart" /></i><span><strong>Conoce tu consumo</strong><small>Día por día</small></span><Icon name="arrow-right" /></button>
+          <button onClick={onHistory}><i className="history"><Icon name="receipt" /></i><span><strong>Mis 6 recibos</strong><small>Compara montos</small></span><Icon name="arrow-right" /></button>
+          <button onClick={() => onSelectReceipt(currentReceipt)}><i className="pdf"><Icon name="download" /></i><span><strong>Ver mi PDF</strong><small>Documento emitido</small></span><Icon name="arrow-right" /></button>
+        </div>
 
         <div className="section-heading"><h2>Evolutivo mensual</h2><button onClick={onHistory}>Ver detalle</button></div>
         <Card className="monthly-chart-card"><MonthlyBillChart /></Card>
