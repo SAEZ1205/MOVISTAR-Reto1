@@ -1,4 +1,3 @@
-import LuciaButton from "@/src/components/lucia/LuciaButton";
 import MonthlyBillChart from "@/src/components/cliente/MonthlyBillChart";
 import Card from "@/src/components/shared/Card";
 import Header from "@/src/components/shared/Header";
@@ -6,34 +5,91 @@ import Icon from "@/src/components/shared/Icon";
 import { currentReceipt, money } from "@/src/services/billingService";
 import type { Receipt } from "@/src/types/billing";
 
-export default function MisRecibos({ onBack, onAssistant, onOpenChat, onConsumption, onHistory, onSelectReceipt, showAlert, dismissAlert }: { onBack: () => void; onAssistant: () => void; onOpenChat: () => void; onConsumption: () => void; onHistory: () => void; onSelectReceipt: (receipt: Receipt) => void; showAlert: boolean; dismissAlert: () => void }) {
+type Props = {
+  onBack: () => void;
+  onAssistant: () => void;
+  onOpenChat: () => void;
+  onConsumption: () => void;
+  onHistory: () => void;
+  onSelectReceipt: (receipt: Receipt) => void;
+  showAlert: boolean;
+  dismissAlert: () => void;
+};
+
+export default function MisRecibos({
+  onBack,
+  onAssistant,
+  onOpenChat,
+  onConsumption,
+  onHistory,
+  onSelectReceipt,
+  showAlert,
+  dismissAlert,
+}: Props) {
+  const increase = currentReceipt.amount - currentReceipt.previous;
+
   return (
     <div className="receipt-screen">
       <Header title="Mi recibo" onBack={onBack} />
-      <div className="screen-content">
-        <nav className="month-tabs" aria-label="Recibos por mes"><button className="month-back" aria-label="Mes anterior"><Icon name="arrow-left" /></button><button>Junio</button><button>Julio</button><button className="active" aria-current="page">Agosto</button></nav>
-        <Card className="current-bill-card"><div className="bill-status"><span><small>Estado:</small><strong className="pending">Pendiente</strong></span><span><small>Total:</small><b>{money(currentReceipt.amount)}</b></span></div><dl><div><dt>Vencimiento:</dt><dd>{currentReceipt.due}</dd></div><div><dt>Código de pago:</dt><dd>{currentReceipt.code}</dd></div><div><dt>Renovación:</dt><dd>16 de cada mes</dd></div></dl></Card>
+      <div className="screen-content receipt-content">
+        <nav className="month-tabs" aria-label="Recibos por mes">
+          <button className="month-back" aria-label="Mes anterior"><Icon name="arrow-left" /></button>
+          <button>Junio</button>
+          <button>Julio</button>
+          <button className="active" aria-current="page">Agosto</button>
+        </nav>
 
-        <h2 className="receipt-section-title notification-title">¿Necesitas ayuda?</h2>
-        <div className="lucia-notification-wrap"><LuciaButton onClick={onOpenChat} />{showAlert && <button className="lucia-notification-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={18} /></button>}</div>
-        <button className="receipt-analysis-link" onClick={onAssistant}><span><Icon name="sparkles" size={18} /> Ver análisis completo del recibo</span><Icon name="arrow-right" size={18} /></button>
+        <Card className="receipt-focus-card">
+          <div className="receipt-focus-topline">
+            <span><i /> Pendiente de pago</span>
+            <small>Agosto 2026</small>
+          </div>
+          <p className="receipt-total-label">Total a pagar</p>
+          <strong className="receipt-total">{money(currentReceipt.amount)}</strong>
+          <p className="receipt-due"><Icon name="bell" size={17} /> Vence el {currentReceipt.due}</p>
 
-        <h2 className="receipt-section-title">Plan y adicionales</h2>
-        <Card className="plan-card"><div><i><Icon name="phone" /></i><span><strong>Plan Móvil 40 GB</strong><small>Pertenece a tu plan contratado de agosto</small></span><b>S/59.90</b></div><button><i><Icon name="gift" /></i><span>Bonificaciones y adicionales</span><Icon name="chevron-down" /></button></Card>
+          <button className="receipt-lucia-primary" onClick={onOpenChat}>
+            <span><Icon name="sparkles" size={21} /><b>Entender este recibo con LucIA</b></span>
+            <Icon name="arrow-right" size={20} />
+          </button>
+          <div className="receipt-secondary-actions">
+            <button onClick={() => onSelectReceipt(currentReceipt)}><Icon name="download" size={17} /> Ver PDF</button>
+            <button onClick={onAssistant}><Icon name="receipt" size={17} /> Ver desglose</button>
+          </div>
+        </Card>
 
-        <div className="section-heading receipt-tools-heading"><h2>Gestiona tu recibo</h2><small>Todo en un toque</small></div>
-        <div className="receipt-tools" aria-label="Accesos de recibo">
-          <button onClick={onAssistant}><i className="ai"><Icon name="sparkles" /></i><span><strong>Entender cobros</strong><small>Análisis verificado</small></span><Icon name="arrow-right" /></button>
-          <button onClick={onConsumption}><i className="usage"><Icon name="chart" /></i><span><strong>Conoce tu consumo</strong><small>Día por día</small></span><Icon name="arrow-right" /></button>
-          <button onClick={onHistory}><i className="history"><Icon name="receipt" /></i><span><strong>Mis 6 recibos</strong><small>Compara montos</small></span><Icon name="arrow-right" /></button>
-          <button onClick={() => onSelectReceipt(currentReceipt)}><i className="pdf"><Icon name="download" /></i><span><strong>Ver mi PDF</strong><small>Documento emitido</small></span><Icon name="arrow-right" /></button>
-        </div>
+        {showAlert && (
+          <aside className="receipt-change-notice">
+            <Icon name="chart" size={22} />
+            <span><strong>Este mes pagas {money(increase)} más</strong><small>LucIA encontró los cobros que explican el cambio.</small></span>
+            <button className="receipt-change-action" onClick={onAssistant}>Ver por qué</button>
+            <button className="receipt-change-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={16} /></button>
+          </aside>
+        )}
 
-        <div className="section-heading"><h2>Evolutivo mensual</h2><button onClick={onHistory}>Ver detalle</button></div>
-        <Card className="monthly-chart-card"><MonthlyBillChart /></Card>
+        <section className="receipt-guide" aria-label="Cómo revisar tu recibo">
+          <span className="receipt-guide-heading"><small>ENCUENTRA RÁPIDO LO QUE BUSCAS</small><strong>¿Qué quieres revisar?</strong></span>
+          <div className="receipt-quick-actions">
+            <button onClick={onAssistant}><i className="ai"><Icon name="sparkles" /></i><span><strong>¿Por qué cambió?</strong><small>Explicación con evidencia</small></span><Icon name="arrow-right" size={19} /></button>
+            <button onClick={onConsumption}><i className="usage"><Icon name="chart" /></i><span><strong>Mi consumo</strong><small>Datos usados día por día</small></span><Icon name="arrow-right" size={19} /></button>
+            <button onClick={onHistory}><i className="history"><Icon name="receipt" /></i><span><strong>Recibos anteriores</strong><small>Compara los últimos 6 meses</small></span><Icon name="arrow-right" size={19} /></button>
+          </div>
+        </section>
 
-        <h2 className="receipt-section-title">Otros</h2>
-        <Card className="other-actions"><button><i className="green"><Icon name="receipt" /></i><span><strong>Afiliación al Recibo Digital</strong><small>Puedes registrar o actualizar tus datos para recibirlo por correo.</small></span><Icon name="arrow-right" /></button><button onClick={() => onSelectReceipt(currentReceipt)}><i><Icon name="download" /></i><span><strong>Visualiza tu PDF</strong><small>Aquí encontrarás el documento emitido cada mes.</small></span><Icon name="arrow-right" /></button><button onClick={onHistory}><i className="purple"><Icon name="chart" /></i><span><strong>Historial de recibos</strong><small>Compara los últimos seis meses.</small></span><Icon name="arrow-right" /></button></Card>
+        <details className="receipt-disclosure">
+          <summary><span><i><Icon name="phone" /></i><b><strong>Mi plan y adicionales</strong><small>Revisa qué incluye el total</small></b></span><Icon name="chevron-down" /></summary>
+          <div className="receipt-plan-detail"><span><strong>Plan Móvil 40 GB</strong><small>Plan contratado de agosto</small></span><b>S/59.90</b></div>
+          <button className="receipt-plan-bonus"><Icon name="gift" /><span><strong>Bonificaciones y adicionales</strong><small>Beneficios incluidos en tu línea</small></span><Icon name="arrow-right" /></button>
+        </details>
+
+        <details className="receipt-disclosure">
+          <summary><span><i className="history"><Icon name="chart" /></i><b><strong>Evolución de mis recibos</strong><small>6 meses de comparación</small></b></span><Icon name="chevron-down" /></summary>
+          <div className="receipt-chart-detail"><MonthlyBillChart /><button onClick={onHistory}>Ver comparación completa</button></div>
+        </details>
+
+        <section className="receipt-safe-note"><Icon name="check" size={20} /><span><strong>Montos verificados</strong><small>LucIA explica la información del recibo; no inventa cargos ni fechas.</small></span></section>
+
+        <button className="digital-receipt-link"><i><Icon name="receipt" /></i><span><strong>Recibir mi recibo por correo</strong><small>Afíliate o actualiza tus datos</small></span><Icon name="arrow-right" /></button>
       </div>
     </div>
   );

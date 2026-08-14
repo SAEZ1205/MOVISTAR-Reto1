@@ -77,6 +77,7 @@ MOVISTAR-Reto1/
 │   ├── billing/
 │   ├── ai/
 │   ├── handoff/
+│   ├── callcenter/
 │   └── offers/
 ├── scripts/preparar-dataset.py
 ├── public/
@@ -110,19 +111,27 @@ La demo conserva datos ficticios, pero el formato de evidencia y hand-off sigue 
 
 El siguiente paso de backend es reemplazar `backend/data/demo/billing_data.json` por un proceso que busque una cuenta financiera, normalice sus recibos y entregue `VERIFIED`, `PARTIAL` o `NONE`.
 
-## Call Center y Plivo
+## Call Center central: simulación + Telnyx
 
-La experiencia completa de demo ya funciona localmente: crea el caso, solicita callback, lo guarda y permite verlo en `/?modo=asesor`. La llamada real queda preparada en `backend/handoff/plivo.ts`, pero debe ejecutarse desde un backend seguro.
+Plivo fue retirado porque no está disponible para el equipo. El backend de `backend/callcenter/` ofrece dos modos:
 
-Para activarla:
+- `CALL_PROVIDER=simulation`: demuestra todo el recorrido sin gastar saldo ni depender de disponibilidad regional.
+- `CALL_PROVIDER=telnyx`: llama primero al asesor, lee el resumen por TTS, espera el dígito `1`, llama al cliente y une ambas llamadas.
 
-1. Crear una cuenta de Plivo y comprar/verificar un número con capacidad de voz.
-2. Configurar `PLIVO_AUTH_ID`, `PLIVO_AUTH_TOKEN`, `PLIVO_FROM_NUMBER`, `CALLCENTER_ADVISOR_NUMBER` y `PLIVO_ANSWER_URL` únicamente en el backend.
-3. Crear `POST /api/call-center/callback` para guardar el caso y llamar a `requestPlivoCallback`.
-4. Crear el endpoint `PLIVO_ANSWER_URL` que responda XML usando `buildCustomerBridgeXml` para conectar asesor y cliente.
-5. Colocar esa URL pública en `VITE_CALL_CENTER_API_URL`; el frontend nunca recibe los secretos de Plivo.
+El backend incluye API central de casos, polling del dashboard, estados de llamada, notas, resolución y exportación CSV. El frontend conserva `localStorage` únicamente como fallback cuando no existe un backend configurado.
 
-Para la hackathon, primero demuestra el callback solicitado y el contexto recibido por el asesor. Activa telefonía real solo cuando el flujo y las credenciales estén listos.
+Inicio del backend:
+
+```bash
+cd backend/callcenter
+npm install
+cp .env.example .env
+npm run dev
+```
+
+En Windows usa `copy .env.example .env`. La guía completa de Telnyx, ngrok, variables y errores está en [`backend/callcenter/README_CALLCENTER.md`](backend/callcenter/README_CALLCENTER.md).
+
+> Telnyx puede exigir habilitación del destino Perú o verificación adicional. Por eso la demo estable debe presentarse primero en modo `simulation`.
 
 ## Reparto para cuatro personas
 
