@@ -1,5 +1,5 @@
 export type Resolution = "pending" | "resolved" | "needs-help";
-export type Intent = "increase" | "breakdown" | "usage" | "categories" | "plan" | "receipts" | "receipt_month" | "payment" | "proration" | "discount_demo" | "benefits" | "offer" | "unknown";
+export type Intent = "increase" | "breakdown" | "usage" | "categories" | "plan" | "receipts" | "receipt_month" | "payment" | "proration" | "reconnection_demo" | "discount_demo" | "benefits" | "offer" | "unknown";
 
 export type ChatMessage = {
   role: "user" | "bot";

@@ -44,9 +44,9 @@ En Windows también puedes ejecutar `INICIAR_EN_WINDOWS.bat`.
 ## Flujo principal de la demo
 
 1. Entra a **Recibo** desde la barra inferior.
-2. Pulsa la tarjeta o el botón flotante **Pregúntale a LucIA** para abrir el chat emergente.
-3. Entra a **Ver análisis completo del recibo** para revisar la diferencia, el desglose, la evidencia y la trazabilidad.
-4. Pregunta, por ejemplo: `xq me vino mas karo`.
+2. Pulsa **Entender este recibo con LucIA** para abrir el chat emergente.
+3. Abre **Modo demo** y elige reconexión, fin de descuento, prorrateo o dashboard del asesor.
+4. También puedes preguntar libremente, por ejemplo: `xq me vino mas karo`.
 5. Si confirmas que la explicación resolvió la duda, se habilita una oferta controlada.
 6. Si todavía tienes dudas, elige **Quiero que me llamen** o **Solo enviar el caso**.
 7. Abre `/?modo=asesor` para ver la bandeja y el detalle que recibe el Call Center.
@@ -77,6 +77,7 @@ MOVISTAR-Reto1/
 │   ├── billing/
 │   ├── ai/
 │   ├── handoff/
+│   ├── callcenter/
 │   └── offers/
 ├── scripts/preparar-dataset.py
 ├── public/
@@ -110,19 +111,28 @@ La demo conserva datos ficticios, pero el formato de evidencia y hand-off sigue 
 
 El siguiente paso de backend es reemplazar `backend/data/demo/billing_data.json` por un proceso que busque una cuenta financiera, normalice sus recibos y entregue `VERIFIED`, `PARTIAL` o `NONE`.
 
-## Call Center y Plivo
+## Call Center central: simulación + Telnyx
 
-La experiencia completa de demo ya funciona localmente: crea el caso, solicita callback, lo guarda y permite verlo en `/?modo=asesor`. La llamada real queda preparada en `backend/handoff/plivo.ts`, pero debe ejecutarse desde un backend seguro.
+Plivo fue retirado porque no está disponible para el equipo. El backend de `backend/callcenter/` ofrece dos modos:
 
-Para activarla:
+- `CALL_PROVIDER=simulation`: demuestra todo el recorrido sin gastar saldo ni depender de disponibilidad regional.
+- `CALL_PROVIDER=telnyx` + `CALL_FLOW=summary_only`: llama al asesor, lee el resumen por TTS, espera el dígito `1` y termina. Es la primera prueba recomendada.
+- `CALL_PROVIDER=telnyx` + `CALL_FLOW=bridge`: después de la aceptación llama al cliente y une ambas llamadas.
 
-1. Crear una cuenta de Plivo y comprar/verificar un número con capacidad de voz.
-2. Configurar `PLIVO_AUTH_ID`, `PLIVO_AUTH_TOKEN`, `PLIVO_FROM_NUMBER`, `CALLCENTER_ADVISOR_NUMBER` y `PLIVO_ANSWER_URL` únicamente en el backend.
-3. Crear `POST /api/call-center/callback` para guardar el caso y llamar a `requestPlivoCallback`.
-4. Crear el endpoint `PLIVO_ANSWER_URL` que responda XML usando `buildCustomerBridgeXml` para conectar asesor y cliente.
-5. Colocar esa URL pública en `VITE_CALL_CENTER_API_URL`; el frontend nunca recibe los secretos de Plivo.
+El backend incluye API central de casos, polling del dashboard, estados de llamada, notas, resolución y exportación CSV compatible con Excel. La bandeja incluye búsqueda, filtros y paginación. El frontend conserva `localStorage` únicamente como fallback cuando no existe un backend configurado.
 
-Para la hackathon, primero demuestra el callback solicitado y el contexto recibido por el asesor. Activa telefonía real solo cuando el flujo y las credenciales estén listos.
+Inicio del backend:
+
+```bash
+cd backend/callcenter
+npm install
+cp .env.example .env
+npm run dev
+```
+
+En Windows usa `copy .env.example .env`. La guía completa de Telnyx, ngrok, variables y errores está en [`backend/callcenter/README_CALLCENTER.md`](backend/callcenter/README_CALLCENTER.md).
+
+> Telnyx puede exigir habilitación del destino Perú o verificación adicional. Por eso la demo estable debe presentarse primero en modo `simulation`.
 
 ## Reparto para cuatro personas
 

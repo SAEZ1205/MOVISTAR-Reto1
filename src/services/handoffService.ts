@@ -4,8 +4,24 @@ import type { ChatMessage } from "@/src/types/lucia";
 
 const STORAGE_KEY = "movistar-reto1-cases";
 
+function saveCases(cases: HandoffCase[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cases));
+}
+
 export function getCases(): HandoffCase[] {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") as HandoffCase[]; } catch { return []; }
+}
+
+export function maskPhone(value: string) {
+  const digits = value.replace(/\D/g, "");
+  return digits.length > 3 ? `${"•".repeat(Math.max(4, digits.length - 3))}${digits.slice(-3)}` : "Número protegido";
+}
+
+export function upsertCase(nextCase: HandoffCase) {
+  const cases = getCases();
+  const found = cases.some((item) => item.id === nextCase.id);
+  saveCases(found ? cases.map((item) => item.id === nextCase.id ? nextCase : item) : [nextCase, ...cases]);
+  return nextCase;
 }
 
 type CaseOptions = Pick<HandoffCase, "contactPreference" | "callbackStatus">;
@@ -33,8 +49,16 @@ export function createCase(messages: ChatMessage[], options: Partial<CaseOptions
     },
     contactPreference: options.contactPreference ?? "dashboard",
     callbackStatus: options.callbackStatus ?? "not-requested",
+    callbackRequested: options.contactPreference === "callback",
+    customerPhoneMasked: maskPhone(customer.line),
+    advisorPhoneMasked: "Número protegido",
+    assignedAgent: null,
+    callDurationSeconds: null,
+    resolution: null,
+    advisorNotes: null,
+    updatedAt: new Date().toISOString(),
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([handoffCase, ...getCases()]));
+  upsertCase(handoffCase);
   return handoffCase;
 }
 
@@ -51,7 +75,7 @@ export async function sendHandoff(messages: ChatMessage[]): Promise<HandoffRespo
 }
 
 export function updateCaseStatus(id: string, status: HandoffCase["status"]) {
-  const updated = getCases().map((item) => item.id === id ? { ...item, status } : item);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  const updated = getCases().map((item) => item.id === id ? { ...item, status, updatedAt: new Date().toISOString() } : item);
+  saveCases(updated);
   return updated.find((item) => item.id === id);
 }
