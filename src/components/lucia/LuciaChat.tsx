@@ -1,7 +1,7 @@
 import type { FormEvent, RefObject } from "react";
 import Button from "@/src/components/shared/Button";
 import Icon from "@/src/components/shared/Icon";
-import type { WhatsAppState } from "@/src/types/case";
+import type { CallCenterState, WhatsAppState } from "@/src/types/case";
 import type { ChatMessage } from "@/src/types/lucia";
 import type { Offer, OfferStatus } from "@/src/types/offer";
 import LuciaImage from "./LuciaImage";
@@ -14,9 +14,11 @@ type Props = {
   messages: ChatMessage[]; asking: boolean; question: string; questions: string[];
   showFeedback: boolean; offerStatus: OfferStatus; offer: Offer; handoff: boolean;
   whatsappState: WhatsAppState; whatsappMessage: string; endRef: RefObject<HTMLDivElement | null>;
+  callCenterState: CallCenterState; callCenterMessage: string;
   onClose: () => void; onQuestion: (value: string) => void; onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onAsk: (question: string) => void; onResolved: () => void; onHuman: () => void;
   onAcceptOffer: () => void; onDeclineOffer: () => void; onSendHandoff: () => void;
+  onRequestCallback: () => void;
 };
 
 export default function LuciaChat(props: Props) {
@@ -38,7 +40,7 @@ export default function LuciaChat(props: Props) {
             </section>
           )}
           {props.handoff && (
-            <section className="handoff-card"><Icon name="headset" /><div><strong>Resumen listo para el asesor</strong><p>Incluye cliente, recibo, evidencia y conversación.</p><Button onClick={props.onSendHandoff} disabled={props.whatsappState === "sending"}>{props.whatsappState === "sending" ? "Preparando…" : "Preparar envío al Call Center"}</Button>{props.whatsappMessage && <small>{props.whatsappMessage}</small>}</div></section>
+            <section className="handoff-card"><Icon name="headset" /><div><small className="handoff-eyebrow">ATENCIÓN CON CONTEXTO</small><strong>El asesor ya puede recibir tu caso</strong><p>Le enviaremos tu pregunta, recibo, evidencia y conversación para que no repitas todo.</p><div className="handoff-actions"><Button onClick={props.onRequestCallback} disabled={props.callCenterState === "sending"}>{props.callCenterState === "sending" ? "Solicitando…" : "Quiero que me llamen"}</Button><Button variant="secondary" onClick={props.onSendHandoff} disabled={props.whatsappState === "sending"}>{props.whatsappState === "sending" ? "Preparando…" : "Solo enviar el caso"}</Button></div>{props.callCenterMessage && <small className="handoff-result">{props.callCenterMessage}</small>}{props.whatsappMessage && <small className="handoff-result">{props.whatsappMessage}</small>}<small className="handoff-privacy"><Icon name="check" size={13} /> Tu número no se muestra en la conversación.</small></div></section>
           )}
           {!props.handoff && !props.showFeedback && props.offerStatus === "locked" && <QuickQuestions questions={props.questions} onAsk={props.onAsk} />}
           <div ref={props.endRef} />

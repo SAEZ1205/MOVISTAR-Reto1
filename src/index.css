@@ -151,9 +151,18 @@ h1, h2, h3, p { text-wrap: pretty; }
 .lucia-entry small b { padding: 3px 5px; border-radius: 6px; color: white; background: var(--movistar); font-size: 8px; }
 .lucia-entry strong { color: #30383c; font-size: 15px; line-height: 1.18; }
 .lucia-entry p { margin: 0; color: #62747c; font-size: 10px; line-height: 1.3; }
+.lucia-entry em { width: fit-content; margin-top: 2px; color: var(--movistar-dark); font-size: 10px; font-style: normal; font-weight: 850; }
 .lucia-entry-arrow { position: relative; z-index: 1; width: 28px; height: 28px; display: grid; place-items: center; color: var(--movistar); }
 .lucia-entry .lucia-avatar { width: 46px; height: 46px; border-width: 2px; }
 .lucia-entry.compact { min-height: 82px; margin: 16px 0; padding-right: 14px; border-color: #9bdcf4; background: white; box-shadow: none; }
+.receipt-analysis-link { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; padding: 0 14px; border: 1px solid #b8e2f3; border-radius: 12px; color: var(--movistar-dark); background: white; font-size: 11px; font-weight: 800; cursor: pointer; }
+.receipt-analysis-link span { display: inline-flex; align-items: center; gap: 7px; }
+.lucia-floating-button { position: fixed; z-index: 80; left: 50%; bottom: calc(83px + env(safe-area-inset-bottom)); width: min(254px, calc(100% - 28px)); min-height: 62px; display: grid; grid-template-columns: 48px 1fr 9px; align-items: center; gap: 9px; padding: 7px 13px 7px 7px; border: 2px solid white; border-radius: 999px; color: white; background: linear-gradient(120deg, #007ebc, #00a8e5); box-shadow: 0 9px 28px rgba(0,82,125,.38); text-align: left; transform: translateX(-50%); cursor: pointer; }
+.lucia-floating-button .lucia-avatar { width: 46px; height: 46px; border-width: 2px; box-shadow: none; }
+.lucia-floating-button > span { display: flex; flex-direction: column; gap: 2px; }
+.lucia-floating-button small { color: #ccefff; font-size: 8px; font-weight: 900; letter-spacing: .08em; }
+.lucia-floating-button strong { font-size: 13px; }
+.lucia-floating-button > i { width: 8px; height: 8px; border: 2px solid white; border-radius: 50%; background: #40d66b; box-shadow: 0 0 0 3px rgba(64,214,107,.2); }
 .lucia-notification-close { position: absolute; z-index: 5; right: 5px; top: 5px; width: 28px; height: 28px; display: grid; place-items: center; border: 0; color: #63757d; background: transparent; cursor: pointer; }
 .lucia-avatar { position: relative; width: 66px; height: 66px; display: inline-grid; place-items: center; overflow: hidden; flex: 0 0 auto; border: 3px solid white; border-radius: 50%; background: white; box-shadow: 0 4px 12px rgba(0,55,87,.2); }
 .lucia-avatar img { width: 105%; height: 105%; object-fit: contain; }
@@ -234,6 +243,17 @@ h1, h2, h3, p { text-wrap: pretty; }
 .evidence-box { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; padding: 12px; border-radius: 12px; color: #246c56; background: #eaf8f1; }
 .evidence-box span { display: flex; flex-direction: column; gap: 4px; }
 .evidence-box small { color: #55746a; line-height: 1.4; }
+.traceability { margin-top: 14px; border: 1px solid #cce8f3; border-radius: 13px; background: #f6fcfe; }
+.traceability summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 13px; color: #166a8d; font-size: 11px; font-weight: 850; cursor: pointer; list-style: none; }
+.traceability summary::-webkit-details-marker { display: none; }
+.traceability summary span { display: inline-flex; align-items: center; gap: 7px; }
+.traceability[open] summary > svg { transform: rotate(180deg); }
+.traceability > div { padding: 3px 13px 12px; border-top: 1px solid #dceff6; }
+.traceability p { display: grid; grid-template-columns: 25px 1fr; gap: 9px; margin: 11px 0; }
+.traceability p > b { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--movistar); font-size: 10px; }
+.traceability p > span { display: flex; flex-direction: column; gap: 3px; }
+.traceability p strong { font-size: 11px; }
+.traceability p small { color: #66808b; font-size: 9px; line-height: 1.4; }
 .trend-chart { position: relative; min-height: 180px; margin-top: 12px; }
 .trend-chart svg { width: 100%; height: 175px; overflow: visible; }
 .grid-line { stroke: #e7edf0; stroke-width: 1; }
@@ -372,17 +392,73 @@ h1, h2, h3, p { text-wrap: pretty; }
 .handoff-card { display: grid; grid-template-columns: 34px 1fr; gap: 10px; border-color: #bce0ef; background: #effaff; }
 .handoff-card > svg { color: var(--movistar-dark); }
 .handoff-card small { display: block; margin-top: 8px; color: #537b8c; line-height: 1.4; }
+.handoff-card .handoff-eyebrow { margin: 0 0 3px; color: var(--movistar-dark); font-size: 8px; font-weight: 900; letter-spacing: .08em; }
+.handoff-actions { display: grid; gap: 7px; margin-top: 11px; }
+.handoff-actions .ui-button { width: 100%; min-height: 39px; padding: 0 11px; font-size: 11px; }
+.handoff-card .handoff-result { padding: 8px; border-radius: 9px; background: rgba(255,255,255,.72); }
+.handoff-card .handoff-privacy { display: flex; align-items: center; gap: 5px; color: #3e7864; }
 .chat-input { display: grid; grid-template-columns: 1fr 46px; gap: 9px; padding: 10px 13px 14px; border-top: 1px solid #dde6ea; background: white; }
 .chat-input input { min-width: 0; height: 46px; padding: 0 15px; border: 1px solid #cddae0; border-radius: 999px; background: #f8fbfc; }
 .chat-input button { width: 46px; height: 46px; display: grid; place-items: center; border: 0; border-radius: 50%; color: white; background: var(--movistar); cursor: pointer; }
 
-.advisor-dashboard, .advisor-detail { max-width: 1100px; margin: auto; padding: 40px; }
-.advisor-dashboard > header { display: flex; align-items: center; justify-content: space-between; }
-.advisor-dashboard h1, .advisor-detail h1 { margin: 5px 0; }
+.advisor-workspace { min-height: 100vh; color: #24323a; background: #eef3f5; }
+.advisor-topbar { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 max(26px, calc((100vw - 1180px) / 2)); color: white; background: linear-gradient(100deg, #007fbd, #01a6e7); box-shadow: 0 4px 16px rgba(0,83,126,.16); }
+.advisor-topbar > div { display: flex; align-items: center; gap: 10px; }
+.advisor-topbar .movistar-logo { width: 39px; height: 29px; color: white; }
+.advisor-topbar a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.42); border-radius: 999px; color: white; text-decoration: none; font-size: 12px; font-weight: 800; }
+.advisor-dashboard, .advisor-detail { max-width: 1180px; margin: auto; padding: 38px 26px 70px; }
+.advisor-dashboard > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.advisor-dashboard > header small, .advisor-detail header small, .advisor-evidence > small, .advisor-conversation > small { color: #007fbd; font-size: 10px; font-weight: 900; letter-spacing: .08em; }
+.advisor-dashboard h1, .advisor-detail h1 { margin: 6px 0; font-size: 32px; }
+.advisor-dashboard header p { margin: 0; color: #6a7880; }
+.advisor-dashboard > header button, .advisor-back { display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; border: 1px solid #c8d9e0; border-radius: 999px; color: #176b8d; background: white; font-weight: 800; cursor: pointer; }
+.advisor-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 27px; }
+.advisor-metrics article { display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 1px solid #d9e4e8; border-radius: 16px; background: white; box-shadow: 0 4px 14px rgba(25,62,80,.05); }
+.advisor-metrics small { color: #6b7b83; font-size: 10px; font-weight: 850; }
+.advisor-metrics strong { color: #007fbd; font-size: 30px; }
 .advisor-cases { display: grid; gap: 12px; margin-top: 25px; }
-.advisor-case { display: grid; grid-template-columns: 180px 1fr auto; align-items: center; gap: 15px; padding: 18px; border: 1px solid #d9e2e6; border-radius: 15px; background: white; text-align: left; }
-.advisor-case span { display: flex; flex-direction: column; }
-.advisor-evidence { padding: 24px; border-radius: 18px; background: white; }
+.advisor-case { display: grid; grid-template-columns: 220px 1fr auto; align-items: center; gap: 18px; padding: 18px; border: 1px solid #d9e2e6; border-radius: 15px; background: white; box-shadow: 0 3px 12px rgba(32,69,85,.05); text-align: left; cursor: pointer; }
+.advisor-case span, .advisor-case p { display: flex; flex-direction: column; gap: 5px; }
+.advisor-case p { margin: 0; }
+.advisor-case small { color: #718089; font-size: 11px; }
+.advisor-case > b, .advisor-status { padding: 7px 10px; border-radius: 999px; color: #8a5d08; background: #fff3d8; font-size: 10px; text-transform: uppercase; }
+.advisor-case > b.resolved, .advisor-status.resolved { color: #287357; background: #e8f8f0; }
+.advisor-detail > header { display: flex; justify-content: space-between; gap: 22px; margin: 22px 0; padding: 24px; border-radius: 18px; background: white; }
+.advisor-detail header p { margin: 0; color: #5e6d74; }
+.advisor-actionbar { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 16px; }
+.advisor-actionbar button { padding: 10px 15px; border: 1px solid var(--movistar); border-radius: 999px; color: var(--movistar-dark); background: white; font-weight: 800; cursor: pointer; }
+.advisor-actionbar button:last-child { color: white; background: var(--movistar); }
+.advisor-detail-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 16px; }
+.advisor-evidence, .advisor-conversation { padding: 24px; border: 1px solid #dae4e8; border-radius: 18px; background: white; }
+.advisor-evidence h2, .advisor-conversation h2 { margin: 6px 0 18px; }
+.advisor-evidence dl { margin: 0; }
+.advisor-evidence dl div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 11px 0; border-bottom: 1px solid #edf0f1; }
+.advisor-evidence dt { color: #758289; }
+.advisor-evidence dd { margin: 0; font-weight: 700; }
+.advisor-evidence li { margin: 7px 0; color: #39775f; }
+.advisor-sources { padding: 10px; border-radius: 10px; color: #55727f; background: #eef8fb; font-size: 11px; }
+.advisor-conversation > p { display: flex; flex-direction: column; gap: 5px; margin: 13px 0; }
+.advisor-conversation > p strong { color: #69777e; font-size: 10px; }
+.advisor-conversation > p span { width: fit-content; max-width: 82%; padding: 10px 12px; border-radius: 13px 13px 13px 3px; background: #edf2f4; line-height: 1.45; }
+.advisor-conversation > p.user { align-items: flex-end; }
+.advisor-conversation > p.user span { color: white; border-radius: 13px 13px 3px 13px; background: var(--movistar); }
+.desktop-advisor-link { width: fit-content; display: inline-flex; align-items: center; gap: 7px; margin: 19px 0 13px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.42); border-radius: 999px; color: white; text-decoration: none; font-size: 10px; font-weight: 850; }
+
+@media (max-width: 760px) {
+  .advisor-topbar { padding: 12px 16px; }
+  .advisor-topbar strong { font-size: 13px; }
+  .advisor-topbar a { padding: 9px; font-size: 0; }
+  .advisor-dashboard, .advisor-detail { padding: 25px 16px 55px; }
+  .advisor-dashboard > header { flex-direction: column; }
+  .advisor-dashboard h1, .advisor-detail h1 { font-size: 25px; }
+  .advisor-metrics { grid-template-columns: 1fr; }
+  .advisor-case { grid-template-columns: 1fr auto; }
+  .advisor-case > p { grid-column: 1 / -1; grid-row: 2; }
+  .advisor-detail > header { align-items: flex-start; padding: 18px; }
+  .advisor-detail-grid { grid-template-columns: 1fr; }
+  .advisor-evidence, .advisor-conversation { padding: 18px; }
+  .advisor-evidence dl div { grid-template-columns: 1fr; gap: 4px; }
+}
 
 @media (max-width: 390px) {
   .screen-content, .home-content { padding-left: 15px; padding-right: 15px; }

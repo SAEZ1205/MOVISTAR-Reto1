@@ -8,7 +8,9 @@ export function getCases(): HandoffCase[] {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") as HandoffCase[]; } catch { return []; }
 }
 
-export function createCase(messages: ChatMessage[]): HandoffCase {
+type CaseOptions = Pick<HandoffCase, "contactPreference" | "callbackStatus">;
+
+export function createCase(messages: ChatMessage[], options: Partial<CaseOptions> = {}): HandoffCase {
   const lastQuestion = [...messages].reverse().find((item) => item.role === "user")?.text ?? "Consulta de facturación";
   const handoffCase: HandoffCase = {
     id: `CASO-${Date.now().toString().slice(-6)}`,
@@ -21,13 +23,23 @@ export function createCase(messages: ChatMessage[]): HandoffCase {
     reason: "El cliente indicó que todavía necesita ayuda.",
     status: "new",
     createdAt: new Date().toISOString(),
+    billingContext: {
+      financialAccount: customer.account,
+      invoiceNumber: currentReceipt.code,
+      billingCycle: currentReceipt.period,
+      evidenceStatus: "VERIFIED",
+      chargeCodes: ["PLAN_40GB", "PAQ_10GB", "MUSICA"],
+      dataSources: ["FACTURACION-CLIENTES", "Ordenes", "CATALOGO-OFERTAS"],
+    },
+    contactPreference: options.contactPreference ?? "dashboard",
+    callbackStatus: options.callbackStatus ?? "not-requested",
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify([handoffCase, ...getCases()]));
   return handoffCase;
 }
 
 export async function sendHandoff(messages: ChatMessage[]): Promise<HandoffResponse> {
-  const handoffCase = createCase(messages);
+  const handoffCase = createCase(messages, { contactPreference: "dashboard" });
   const endpoint = import.meta.env.VITE_HANDOFF_API_URL?.trim();
   if (endpoint) {
     try {

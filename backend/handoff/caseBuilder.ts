@@ -15,5 +15,15 @@ export function buildCase(conversation: ChatMessage[], reason: string): HandoffC
     reason,
     status: "new",
     createdAt: new Date().toISOString(),
+    billingContext: {
+      financialAccount: billing.customer.account,
+      invoiceNumber: current.code,
+      billingCycle: current.period,
+      evidenceStatus: "VERIFIED",
+      chargeCodes: ["PLAN_40GB", "PAQ_10GB", "MUSICA"],
+      dataSources: ["FACTURACION-CLIENTES", "Ordenes", "CATALOGO-OFERTAS"],
+    },
+    contactPreference: "dashboard",
+    callbackStatus: "not-requested",
   };
 }

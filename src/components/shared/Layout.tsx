@@ -15,6 +15,7 @@ export default function Layout({ children }: PropsWithChildren) {
           <span><Icon name="chart" /><b>Consumo al día</b></span>
           <span><Icon name="support" /><b>Ayuda inmediata</b></span>
         </div>
+        <a className="desktop-advisor-link" href="?modo=asesor"><Icon name="headset" size={17} /> Abrir demo Call Center</a>
         <small>Vista de demostración · Navega desde la barra inferior</small>
       </aside>
       <div className="mobile-app">{children}</div>
