@@ -11,12 +11,11 @@ export default function MisRecibos({ onBack, onAssistant, onHistory, onSelectRec
     <div className="receipt-screen">
       <Header title="Mi recibo" onBack={onBack} />
       <div className="screen-content">
-        <nav className="month-tabs" aria-label="Recibos por mes"><button>Junio</button><button>Julio</button><button className="active" aria-current="page">Agosto</button></nav>
-        <Card className="current-bill-card"><div className="bill-status"><span><small>Estado:</small><strong className="pending">Pendiente</strong></span><span><small>Total:</small><b>{money(currentReceipt.amount)}</b></span></div><dl><div><dt>Vencimiento:</dt><dd>{currentReceipt.due}</dd></div><div><dt>Código de pago:</dt><dd>{currentReceipt.code}</dd></div><div><dt>Renovación:</dt><dd>16 de cada mes</dd></div></dl><div className="bill-main-actions"><button>Pagar</button><button onClick={() => onSelectReceipt(currentReceipt)}>Ver PDF</button></div></Card>
+        <nav className="month-tabs" aria-label="Recibos por mes"><button className="month-back" aria-label="Mes anterior"><Icon name="arrow-left" /></button><button>Junio</button><button>Julio</button><button className="active" aria-current="page">Agosto</button></nav>
+        <Card className="current-bill-card"><div className="bill-status"><span><small>Estado:</small><strong className="pending">Pendiente</strong></span><span><small>Total:</small><b>{money(currentReceipt.amount)}</b></span></div><dl><div><dt>Vencimiento:</dt><dd>{currentReceipt.due}</dd></div><div><dt>Código de pago:</dt><dd>{currentReceipt.code}</dd></div><div><dt>Renovación:</dt><dd>16 de cada mes</dd></div></dl></Card>
 
-        <LuciaButton onClick={onAssistant} />
-
-        {showAlert && <section className="change-alert"><button className="change-alert-content" onClick={onAssistant}><Icon name="chat" /><span><strong>LucIA encontró el cambio de agosto</strong><small>Tu recibo tiene S/23.00 adicionales frente a julio.</small></span><Icon name="arrow-right" /></button><button className="change-alert-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={18} /></button></section>}
+        <h2 className="receipt-section-title notification-title">Notificaciones</h2>
+        <div className="lucia-notification-wrap"><LuciaButton onClick={onAssistant} />{showAlert && <button className="lucia-notification-close" onClick={dismissAlert} aria-label="Cerrar aviso"><Icon name="close" size={18} /></button>}</div>
 
         <h2 className="receipt-section-title">Plan y adicionales</h2>
         <Card className="plan-card"><div><i><Icon name="phone" /></i><span><strong>Plan Móvil 40 GB</strong><small>Pertenece a tu plan contratado de agosto</small></span><b>S/59.90</b></div><button><i><Icon name="gift" /></i><span>Bonificaciones y adicionales</span><Icon name="chevron-down" /></button></Card>
@@ -25,7 +24,7 @@ export default function MisRecibos({ onBack, onAssistant, onHistory, onSelectRec
         <Card className="monthly-chart-card"><MonthlyBillChart /></Card>
 
         <h2 className="receipt-section-title">Otros</h2>
-        <Card className="other-actions"><button><i className="green"><Icon name="receipt" /></i><span><strong>Afiliación al Recibo Digital</strong><small>Recibe tu documento mensual en tu correo.</small></span><Icon name="arrow-right" /></button><button onClick={() => onSelectReceipt(currentReceipt)}><i><Icon name="download" /></i><span><strong>Visualiza tu PDF</strong><small>Documento emitido de agosto.</small></span><Icon name="arrow-right" /></button><button onClick={onHistory}><i className="purple"><Icon name="chart" /></i><span><strong>Historial de recibos</strong><small>Compara los últimos seis meses.</small></span><Icon name="arrow-right" /></button></Card>
+        <Card className="other-actions"><button><i className="green"><Icon name="receipt" /></i><span><strong>Afiliación al Recibo Digital</strong><small>Puedes registrar o actualizar tus datos para recibirlo por correo.</small></span><Icon name="arrow-right" /></button><button onClick={() => onSelectReceipt(currentReceipt)}><i><Icon name="download" /></i><span><strong>Visualiza tu PDF</strong><small>Aquí encontrarás el documento emitido cada mes.</small></span><Icon name="arrow-right" /></button><button onClick={onHistory}><i className="purple"><Icon name="chart" /></i><span><strong>Historial de recibos</strong><small>Compara los últimos seis meses.</small></span><Icon name="arrow-right" /></button></Card>
       </div>
     </div>
   );

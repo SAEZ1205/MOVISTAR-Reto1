@@ -1,9 +1,12 @@
+import { useState } from "react";
 import AccountPanel from "@/src/components/cliente/AccountPanel";
 import Icon from "@/src/components/shared/Icon";
+import MovistarLogo from "@/src/components/shared/MovistarLogo";
 import { currentReceipt, customer } from "@/src/services/billingService";
 
 export default function Inicio({ onReceipt, onBenefits, onStore }: { onReceipt: () => void; onBenefits: () => void; onStore: () => void }) {
   const remaining = customer.planData - currentReceipt.usage;
+  const [showPromo, setShowPromo] = useState(true);
   return (
     <div className="home-screen">
       <AccountPanel />
@@ -16,6 +19,7 @@ export default function Inicio({ onReceipt, onBenefits, onStore }: { onReceipt: 
         <h2 className="access-title">Accesos directos</h2>
         <div className="direct-grid"><button><Icon name="wifi" /><strong>Planes hogar</strong><small>Internet y TV</small></button><button onClick={onStore}><Icon name="device" /><strong>Renovar mi equipo</strong><small>Precios especiales</small></button><button><Icon name="receipt" /><strong>Mejorar mi plan</strong><small>Revisa alternativas</small></button><button><Icon name="home" /><strong>Movistar Total</strong><small>Todos tus servicios</small></button></div>
       </div>
+      {showPromo && <aside className="renew-promo"><MovistarLogo /><span><strong>Es momento de RENOVAR tu CELU</strong><small>Aprovecha precios especiales y envío gratis.</small></span><button onClick={() => setShowPromo(false)} aria-label="Cerrar promoción"><Icon name="close" size={20} /></button></aside>}
     </div>
   );
 }

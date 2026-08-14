@@ -16,8 +16,8 @@
 }
 
 * { box-sizing: border-box; }
-html { background: #e8edf0; scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background: #e8edf0; font-family: Inter, "Segoe UI", Arial, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
+html { background: #e7ebee; scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: #e7ebee; font-family: Roboto, "Segoe UI", Arial, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { color: inherit; }
@@ -25,9 +25,9 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid 
 h1, h2, h3, p { text-wrap: pretty; }
 
 .app-stage { min-height: 100vh; }
-.mobile-app { position: relative; width: min(100%, 520px); min-height: 100vh; margin: 0 auto; padding-bottom: calc(92px + env(safe-area-inset-bottom)); overflow: hidden; background: var(--surface); box-shadow: 0 0 45px rgba(16, 45, 62, .16); }
-.screen-content { padding: 24px 21px 48px; }
-.ui-card { border: 1px solid #d7dadd; border-radius: 20px; background: var(--white); box-shadow: 0 4px 12px rgba(23, 40, 49, .07); }
+.mobile-app { position: relative; width: min(100%, 430px); min-height: 100vh; margin: 0 auto; padding-bottom: calc(88px + env(safe-area-inset-bottom)); overflow: hidden; background: var(--surface); box-shadow: 0 0 38px rgba(16, 45, 62, .2); }
+.screen-content { padding: 25px 19px 52px; }
+.ui-card { border: 1px solid #d4d6d8; border-radius: 18px; background: var(--white); box-shadow: 0 3px 10px rgba(23, 40, 49, .08); }
 .ui-button { min-height: 43px; padding: 0 18px; border: 1px solid transparent; border-radius: 999px; font-weight: 750; cursor: pointer; }
 .ui-button.primary { color: white; background: var(--movistar); }
 .ui-button.secondary { color: var(--movistar-dark); border-color: var(--movistar); background: white; }
@@ -42,46 +42,60 @@ h1, h2, h3, p { text-wrap: pretty; }
 .ui-loader i { width: 18px; height: 18px; border: 2px solid #d8e4ea; border-top-color: var(--movistar); border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.screen-header { position: sticky; top: 0; z-index: 30; height: 82px; display: grid; grid-template-columns: 62px 1fr 62px; align-items: center; color: white; background: var(--movistar); box-shadow: 0 1px rgba(255,255,255,.12); }
-.screen-header button { width: 54px; height: 54px; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
-.screen-header h1 { margin: 0; text-align: center; font-size: 24px; font-weight: 440; letter-spacing: -.02em; }
+.mobile-status-bar { height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px 0 27px; color: white; background: #0796d7; font-size: 14px; }
+.mobile-status-bar > strong { font-size: 15px; letter-spacing: .03em; }
+.status-icons { display: flex; align-items: center; gap: 7px; height: 100%; }
+.status-icons > small { padding: 1px 3px; border: 1px solid rgba(255,255,255,.9); border-radius: 2px; color: white; font-size: 7px; font-weight: 800; }
+.status-bluetooth { font-style: normal; font-size: 17px; font-weight: 800; }
+.status-wifi { position: relative; width: 15px; height: 11px; overflow: hidden; border: 2px solid white; border-left-color: transparent; border-bottom-color: transparent; border-radius: 50%; transform: rotate(-45deg); }
+.status-signal { height: 15px; display: flex; align-items: end; gap: 1px; }
+.status-signal b { width: 3px; border-radius: 1px 1px 0 0; background: white; }
+.status-signal b:nth-child(1) { height: 5px; }.status-signal b:nth-child(2) { height: 8px; }.status-signal b:nth-child(3) { height: 11px; }.status-signal b:nth-child(4) { height: 14px; }
+.status-battery { position: relative; width: 23px; height: 12px; padding: 2px; border: 2px solid white; border-radius: 3px; }
+.status-battery::after { content: ""; position: absolute; right: -4px; top: 3px; width: 2px; height: 5px; border-radius: 0 2px 2px 0; background: white; }
+.status-battery b { width: 82%; height: 100%; display: block; border-radius: 1px; background: white; }
+.screen-header { position: sticky; top: 0; z-index: 30; color: white; background: var(--movistar); box-shadow: 0 1px rgba(255,255,255,.12); }
+.screen-toolbar { height: 72px; display: grid; grid-template-columns: 62px 1fr 62px; align-items: center; }
+.screen-toolbar button { width: 58px; height: 58px; display: grid; place-items: center; border: 0; color: white; background: transparent; cursor: pointer; }
+.screen-toolbar h1 { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 0; text-align: center; font-size: 24px; font-weight: 400; letter-spacing: -.01em; }
 
-.account-panel { position: relative; z-index: 2; padding: 24px 22px 25px; border-radius: 0 0 26px 26px; color: white; background: var(--movistar); }
-.account-panel header { min-height: 54px; display: grid; grid-template-columns: 45px 1fr 45px; align-items: center; }
+.account-panel { position: relative; z-index: 2; padding: 0 18px 19px; border-radius: 0 0 24px 24px; color: white; background: var(--movistar); }
+.account-panel > .mobile-status-bar { margin: 0 -18px; }
+.account-panel header { min-height: 69px; display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; }
 .account-panel header button { width: 45px; height: 45px; display: grid; place-items: center; border: 0; color: white; background: transparent; cursor: pointer; }
-.account-panel header h1 { margin: 0; font-size: clamp(24px, 7vw, 31px); text-align: center; letter-spacing: -.025em; }
-.gold-row { height: 64px; display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 0 18px 0 10px; border-radius: 34px; background: linear-gradient(100deg, #b47b20, #edc45d); box-shadow: inset 0 1px rgba(255,255,255,.28), 0 3px 10px rgba(111,72,9,.14); }
+.account-panel header h1 { margin: 0; font-size: clamp(23px, 6.8vw, 28px); text-align: left; letter-spacing: -.025em; }
+.gold-row { height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px 0 8px; border-radius: 30px; background: linear-gradient(100deg, #b47b20, #edc45d); box-shadow: inset 0 1px rgba(255,255,255,.28), 0 3px 10px rgba(111,72,9,.14); }
 .gold-row > span, .gold-row button { display: flex; align-items: center; gap: 9px; }
-.gold-row > span { font-size: 18px; font-weight: 800; }
-.gold-row > span i { width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(255,255,255,.13); box-shadow: inset 0 0 0 4px rgba(255,255,255,.08); }
+.gold-row > span { font-size: 17px; font-weight: 800; }
+.gold-row > span i { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; background: rgba(255,255,255,.13); box-shadow: inset 0 0 0 4px rgba(255,255,255,.08); }
 .gold-row button { border: 0; color: white; background: transparent; font-weight: 700; cursor: pointer; }
-.line-row { width: 100%; min-height: 82px; display: grid; grid-template-columns: 46px 1fr 32px; align-items: center; margin-top: 16px; padding: 10px 20px; border: 0; border-radius: 15px; color: #1c2328; background: white; text-align: left; cursor: pointer; box-shadow: 0 3px 10px rgba(0,72,106,.08); }
+.line-row { width: 100%; min-height: 72px; display: grid; grid-template-columns: 43px 1fr 28px; align-items: center; margin-top: 10px; padding: 8px 18px; border: 0; border-radius: 13px; color: #1c2328; background: white; text-align: left; cursor: pointer; box-shadow: 0 3px 10px rgba(0,72,106,.08); }
 .line-row > svg { color: var(--movistar); }
 .line-row span { display: flex; flex-direction: column; gap: 3px; }
-.line-row strong { font-size: 20px; letter-spacing: .08em; }
-.line-row small { color: #858585; font-size: 16px; }
+.line-row strong { font-size: 18px; letter-spacing: .08em; }
+.line-row small { color: #858585; font-size: 15px; }
 
-.home-content { padding: 22px 21px 48px; background: white; }
-.promo-banner { position: relative; height: 155px; overflow: hidden; border-radius: 15px; background: #066daf; }
+.home-content { padding: 17px 18px 52px; background: white; }
+.promo-banner { position: relative; height: 128px; overflow: hidden; border-radius: 11px; background: #066daf; }
 .promo-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,127,190,.96) 0%, rgba(0,133,198,.82) 42%, rgba(0,104,170,.05) 78%); }
 .promo-banner img { width: 100%; height: 100%; object-fit: cover; object-position: 68% center; }
 .promo-banner div { position: absolute; z-index: 2; inset: 0 auto 0 0; width: 56%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 18px; color: white; }
 .promo-banner small { font-size: 9px; font-weight: 850; }
-.promo-banner strong { margin: 5px 0 13px; font-size: 17px; line-height: 1.08; }
+.promo-banner strong { margin: 5px 0 11px; font-size: 16px; line-height: 1.08; }
 .promo-banner button { padding: 8px 12px; border: 1px solid white; border-radius: 6px; color: var(--movistar-dark); background: white; font-size: 12px; font-weight: 800; cursor: pointer; }
-.carousel-dots { display: flex; gap: 9px; padding: 15px 10px 21px; }
-.carousel-dots i { width: 11px; height: 11px; border-radius: 50%; background: #aaa; }
-.carousel-dots .active { width: 28px; border-radius: 9px; background: var(--movistar); }
-.home-shortcuts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.home-shortcuts button { min-height: 104px; display: flex; align-items: center; gap: 15px; padding: 17px; border: 1px solid #d3d7da; border-radius: 14px; background: white; box-shadow: 0 3px 8px rgba(0,0,0,.05); text-align: left; cursor: pointer; }
-.home-shortcuts i { width: 52px; height: 52px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: white; background: var(--movistar); }
-.home-shortcuts strong { font-size: 17px; line-height: 1.35; }
+.carousel-dots { display: flex; gap: 8px; padding: 14px 8px 20px; }
+.carousel-dots i { width: 9px; height: 9px; border-radius: 50%; background: #aaa; }
+.carousel-dots .active { width: 24px; border-radius: 9px; background: var(--movistar); }
+.home-shortcuts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.home-shortcuts button { min-height: 94px; display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid #d3d7da; border-radius: 10px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,.05); text-align: left; cursor: pointer; }
+.home-shortcuts i { width: 48px; height: 48px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: white; background: var(--movistar); }
+.home-shortcuts strong { font-size: 16px; line-height: 1.35; }
 .consumption-home { margin-top: 27px; }
-.consumption-home h2, .access-title { margin: 0; font-size: 26px; letter-spacing: -.025em; }
+.consumption-home h2, .access-title { margin: 0; font-size: 24px; letter-spacing: -.025em; }
 .consumption-home > p { margin: 5px 0 18px; color: #8a8a8a; font-size: 15px; }
-.consumption-cards { display: flex; gap: 14px; margin-right: -21px; padding-right: 21px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.consumption-cards { display: flex; gap: 12px; margin-right: -18px; padding-right: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .consumption-cards::-webkit-scrollbar { display: none; }
-.consumption-cards article { min-height: 198px; flex: 0 0 calc(50% - 7px); padding: 17px 10px; border: 1px solid #d6dadd; border-radius: 14px; text-align: center; background: white; scroll-snap-align: start; }
+.consumption-cards article { min-height: 184px; flex: 0 0 calc(52% - 6px); padding: 15px 8px; border: 1px solid #d6dadd; border-radius: 11px; text-align: center; background: white; scroll-snap-align: start; }
 .consumption-cards article > strong { display: block; min-height: 42px; font-size: 15px; }
 .consumption-cards article > span { position: relative; width: 132px; height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; margin: 7px auto 0; }
 .consumption-cards article > span i { position: absolute; inset: 0; border-radius: 70px 70px 0 0; background: conic-gradient(from 270deg at 50% 100%, var(--green) var(--progress), #e5e8e9 0); clip-path: inset(0 0 48% 0); }
@@ -89,46 +103,55 @@ h1, h2, h3, p { text-wrap: pretty; }
 .consumption-cards article b, .consumption-cards article small { position: relative; z-index: 2; }
 .consumption-cards article b { font-size: 19px; }
 .consumption-cards article small { color: #888; }
-.home-bill { min-height: 88px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; margin-top: 20px; padding: 14px 16px; border: 1px solid #d5dadd; border-radius: 14px; background: #fbfdfe; }
+.home-bill { min-height: 84px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px; margin-top: 19px; padding: 13px 14px; border: 1px solid #d5dadd; border-radius: 11px; background: #fbfdfe; }
 .home-bill > svg { color: var(--movistar); }
 .home-bill span { display: flex; flex-direction: column; gap: 2px; }
 .home-bill small { color: #7c7c7c; }
 .home-bill button { padding: 10px 14px; border: 1px solid var(--movistar); border-radius: 999px; color: var(--movistar-dark); background: white; font-weight: 800; cursor: pointer; }
 .access-title { margin-top: 28px; }
 .direct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-.direct-grid button { min-height: 132px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding: 20px; border: 1px solid #d7d7d7; border-radius: 13px; background: white; text-align: left; cursor: pointer; }
+.direct-grid button { min-height: 128px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding: 18px; border: 1px solid #d7d7d7; border-radius: 11px; background: white; text-align: left; cursor: pointer; }
+.renew-promo { position: fixed; z-index: 46; left: 50%; bottom: calc(82px + env(safe-area-inset-bottom)); width: min(calc(100% - 28px), 400px); min-height: 64px; display: grid; grid-template-columns: 50px 1fr 28px; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 24px; color: white; background: #050505; box-shadow: 0 5px 18px rgba(0,0,0,.35); transform: translateX(-50%); }
+.renew-promo .movistar-logo { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; color: var(--movistar); background: white; }
+.renew-promo .movistar-logo svg { width: 34px; }
+.renew-promo span { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.renew-promo strong { overflow: hidden; font-size: 14px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.renew-promo small { overflow: hidden; color: #71c8f0; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.renew-promo button { width: 28px; height: 40px; display: grid; place-items: center; border: 0; color: white; background: transparent; cursor: pointer; }
 .direct-grid svg { color: var(--movistar); margin-bottom: 10px; }
 .direct-grid strong { font-size: 16px; }
 .direct-grid small { color: #7a7a7a; }
 
-.month-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 2px 0 18px; }
+.month-tabs { display: grid; grid-template-columns: 34px repeat(3, 1fr); gap: 4px; margin: 1px 0 16px; }
 .month-tabs button { min-height: 52px; border: 0; border-radius: 18px; color: #4f555a; background: transparent; font-size: 17px; cursor: pointer; }
+.month-tabs .month-back { color: #b5b8ba; }
 .month-tabs .active { color: var(--movistar-dark); background: #dff3fc; font-weight: 850; box-shadow: inset 0 0 0 1px rgba(1,155,225,.05); }
 .current-bill-card { overflow: hidden; box-shadow: 0 5px 14px rgba(19,50,65,.08); }
-.bill-status { min-height: 106px; display: flex; align-items: center; justify-content: space-between; padding: 21px 22px; }
+.bill-status { min-height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 19px 20px; }
 .bill-status > span { display: flex; flex-direction: column; gap: 5px; }
 .bill-status > span:last-child { text-align: right; }
 .bill-status small { color: #666; }
 .bill-status strong { position: relative; padding-left: 28px; color: var(--green); font-size: 28px; font-weight: 450; }
 .bill-status strong::before { content: "!"; position: absolute; left: 0; top: 6px; width: 22px; height: 22px; display: grid; place-items: center; border: 2px solid currentColor; border-radius: 50%; font-size: 13px; font-weight: 850; }
 .bill-status strong.pending { color: #e59b16; }
-.bill-status b { font-size: 35px; letter-spacing: -.03em; }
-.current-bill-card dl { margin: 0; padding: 20px 22px; border-top: 1px solid #eee; }
+.bill-status b { font-size: 34px; letter-spacing: -.03em; }
+.current-bill-card dl { margin: 0; padding: 20px; border-top: 1px solid #eee; }
 .current-bill-card dl div { display: flex; justify-content: space-between; gap: 12px; margin: 9px 0; }
 .current-bill-card dt { color: #656565; }
 .current-bill-card dd { margin: 0; text-align: right; }
-.bill-main-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px 20px; }
-.bill-main-actions button { min-height: 46px; border: 1px solid var(--movistar); border-radius: 999px; color: var(--movistar); background: white; font-weight: 800; cursor: pointer; }
-.bill-main-actions button:first-child { color: white; background: var(--movistar); }
-.lucia-entry { position: relative; width: 100%; min-height: 116px; display: grid; grid-template-columns: 66px 1fr 34px; align-items: center; gap: 12px; margin: 22px 0; padding: 15px 14px 15px 16px; overflow: hidden; border: 2px solid var(--movistar); border-radius: 19px; color: #17495f; background: linear-gradient(120deg, #f4fbfe 0%, #ddf4fd 100%); box-shadow: 0 7px 18px rgba(1,155,225,.14); text-align: left; cursor: pointer; }
-.lucia-entry::after { content: ""; position: absolute; right: -34px; bottom: -52px; width: 128px; height: 128px; border-radius: 50%; background: rgba(1,155,225,.09); pointer-events: none; }
+.notification-title { margin-bottom: 13px; }
+.lucia-notification-wrap { position: relative; }
+.lucia-entry { position: relative; width: 100%; min-height: 78px; display: grid; grid-template-columns: 48px 1fr 30px; align-items: center; gap: 10px; margin: 0; padding: 11px 38px 11px 14px; overflow: hidden; border: 2px solid var(--movistar); border-radius: 16px; color: #17495f; background: #e4f5fc; box-shadow: 0 3px 9px rgba(1,155,225,.12); text-align: left; cursor: pointer; }
+.lucia-entry::after { content: none; }
 .lucia-entry-copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; }
-.lucia-entry small { display: flex; align-items: center; gap: 6px; color: #087da9; font-size: 9px; font-weight: 900; letter-spacing: .045em; }
-.lucia-entry small b { padding: 3px 6px; border-radius: 7px; color: white; background: var(--movistar); font-size: 9px; }
-.lucia-entry strong { color: #183f50; font-size: 18px; line-height: 1.15; }
-.lucia-entry p { margin: 0; color: #57717d; font-size: 12px; line-height: 1.35; }
-.lucia-entry-arrow { position: relative; z-index: 1; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--movistar); }
-.lucia-entry.compact { margin: 16px 0; border-color: #b9e3f4; background: white; box-shadow: none; }
+.lucia-entry small { display: flex; align-items: center; gap: 5px; color: #087da9; font-size: 7px; font-weight: 900; letter-spacing: .04em; }
+.lucia-entry small b { padding: 3px 5px; border-radius: 6px; color: white; background: var(--movistar); font-size: 8px; }
+.lucia-entry strong { color: #30383c; font-size: 15px; line-height: 1.18; }
+.lucia-entry p { margin: 0; color: #62747c; font-size: 10px; line-height: 1.3; }
+.lucia-entry-arrow { position: relative; z-index: 1; width: 28px; height: 28px; display: grid; place-items: center; color: var(--movistar); }
+.lucia-entry .lucia-avatar { width: 46px; height: 46px; border-width: 2px; }
+.lucia-entry.compact { min-height: 82px; margin: 16px 0; padding-right: 14px; border-color: #9bdcf4; background: white; box-shadow: none; }
+.lucia-notification-close { position: absolute; z-index: 5; right: 5px; top: 5px; width: 28px; height: 28px; display: grid; place-items: center; border: 0; color: #63757d; background: transparent; cursor: pointer; }
 .lucia-avatar { position: relative; width: 66px; height: 66px; display: inline-grid; place-items: center; overflow: hidden; flex: 0 0 auto; border: 3px solid white; border-radius: 50%; background: white; box-shadow: 0 4px 12px rgba(0,55,87,.2); }
 .lucia-avatar img { width: 105%; height: 105%; object-fit: contain; }
 .lucia-avatar i { position: absolute; right: 1px; bottom: 5px; width: 12px; height: 12px; border: 2px solid white; border-radius: 50%; background: #31bc5a; }
@@ -139,9 +162,9 @@ h1, h2, h3, p { text-wrap: pretty; }
 .change-alert-content span { display: flex; flex-direction: column; gap: 3px; }
 .change-alert-content small { color: #66818c; line-height: 1.3; }
 .change-alert-close { width: 36px; border: 0; color: #667a83; background: transparent; cursor: pointer; }
-.receipt-section-title, .section-heading h2 { margin: 27px 0 14px; font-size: 24px; font-weight: 460; }
+.receipt-section-title, .section-heading h2 { margin: 25px 0 13px; font-size: 23px; font-weight: 430; }
 .plan-card { overflow: hidden; }
-.plan-card > div, .plan-card > button { width: 100%; min-height: 90px; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 12px; padding: 15px 20px; border: 0; background: white; text-align: left; }
+.plan-card > div, .plan-card > button { width: 100%; min-height: 84px; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 11px; padding: 14px 18px; border: 0; background: white; text-align: left; }
 .plan-card > button { min-height: 72px; border-top: 1px solid #ddd; cursor: pointer; }
 .plan-card i, .other-actions i { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--movistar); }
 .plan-card button i { background: var(--purple); }
@@ -149,8 +172,8 @@ h1, h2, h3, p { text-wrap: pretty; }
 .plan-card small { color: #888; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; }
 .section-heading button, .section-title button { border: 0; color: var(--movistar-dark); background: transparent; font-weight: 750; cursor: pointer; }
-.monthly-chart-card { padding: 18px 12px 15px; }
-.monthly-bars { min-height: 206px; display: grid; grid-template-columns: repeat(6, 1fr); align-items: end; gap: 5px; }
+.monthly-chart-card { padding: 18px 10px 15px; }
+.monthly-bars { min-height: 190px; display: grid; grid-template-columns: repeat(6, 1fr); align-items: end; gap: 4px; }
 .monthly-bars > div { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .monthly-bars strong { color: var(--movistar); font-size: 10px; white-space: nowrap; }
 .monthly-bars span { height: 122px; display: flex; align-items: end; }
@@ -252,27 +275,33 @@ h1, h2, h3, p { text-wrap: pretty; }
 .receipt-list button > span:nth-child(2) { display: flex; flex-direction: column; gap: 4px; }
 .receipt-list button small { color: #7b858a; font-size: 10px; }
 
-.visual-page { min-height: calc(100vh - 175px); padding: 27px 22px 42px; }
-.visual-hero { min-height: 205px; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; border-radius: 22px; color: white; background: linear-gradient(135deg, #008ed0, #62cff1); box-shadow: 0 12px 28px rgba(0,110,170,.18); }
+.visual-page { min-height: calc(100vh - 190px); padding: 26px 18px 48px; }
+.visual-hero { position: relative; min-height: 190px; display: flex; align-items: flex-end; overflow: hidden; padding: 22px; border-radius: 14px; color: white; background: linear-gradient(135deg, #008ed0, #62cff1); box-shadow: 0 7px 18px rgba(0,110,170,.16); }
+.visual-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.visual-hero > img + div { position: relative; z-index: 2; width: 64%; padding: 13px; border-radius: 12px; background: rgba(0,142,208,.88); }
+.visual-hero > div { position: relative; z-index: 2; }
 .visual-page.beneficios .visual-hero { background: linear-gradient(135deg, #b98522, #efd06e); }
-.visual-page.soporte .visual-hero { background: linear-gradient(135deg, #007fbf, #20b9e9); }
+.visual-page.soporte { padding: 0 0 46px; }
+.visual-page.soporte .visual-hero { min-height: 170px; align-items: center; padding: 30px 28px; border-radius: 0 0 20px 20px; background: linear-gradient(135deg, #018fd0, #08a8e6); box-shadow: none; }
+.visual-page.soporte .visual-hero h2 { max-width: 220px; font-size: 30px; }
+.support-illustration { position: absolute; right: 25px; bottom: 0; width: 112px; height: 112px; display: grid; place-items: center; border-radius: 56px 56px 0 0; color: #023f5f; background: rgba(255,255,255,.2); }
 .visual-hero small { font-weight: 900; letter-spacing: .08em; }
 .visual-hero h2 { margin: 7px 0; font-size: 28px; }
 .visual-hero p { margin: 0; color: rgba(255,255,255,.86); line-height: 1.45; }
 .visual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
-.visual-page.soporte .visual-grid { grid-template-columns: 1fr; gap: 0; overflow: hidden; border: 1px solid #d8d8d8; border-radius: 20px; background: white; }
-.visual-grid button { min-height: 148px; display: grid; grid-template-columns: 1fr 20px; grid-template-rows: 48px 1fr; gap: 9px; padding: 20px; border: 1px solid #d8d8d8; border-radius: 15px; background: white; text-align: left; cursor: pointer; }
+.visual-page.soporte .visual-grid { grid-template-columns: 1fr; gap: 0; margin: 16px 18px 0; overflow: hidden; border: 1px solid #d8d8d8; border-radius: 18px; background: white; }
+.visual-grid button { min-height: 146px; display: grid; grid-template-columns: 1fr 20px; grid-template-rows: 48px 1fr; gap: 9px; padding: 18px; border: 1px solid #d8d8d8; border-radius: 11px; background: white; text-align: left; cursor: pointer; }
 .visual-grid button > i { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--movistar); }
 .visual-grid button > span { grid-column: 1 / 3; display: flex; flex-direction: column; gap: 4px; }
 .visual-grid button > svg { color: #899398; }
 .visual-grid small { color: #7f898e; line-height: 1.35; }
-.visual-page.soporte .visual-grid button { min-height: 90px; grid-template-columns: 52px 1fr 24px; grid-template-rows: 1fr; align-items: center; border: 0; border-bottom: 1px solid #ddd; border-radius: 0; }
+.visual-page.soporte .visual-grid button { min-height: 76px; grid-template-columns: 48px 1fr 22px; grid-template-rows: 1fr; align-items: center; padding: 12px 16px; border: 0; border-bottom: 1px solid #ddd; border-radius: 0; }
 .visual-page.soporte .visual-grid button > span { grid-column: auto; }
 
-.bottom-navigation { position: fixed; z-index: 50; left: 50%; bottom: 0; width: min(100%, 520px); height: calc(82px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 6px env(safe-area-inset-bottom); border-top: 1px solid #dedfe0; background: rgba(255,255,255,.98); box-shadow: 0 -5px 18px rgba(0,0,0,.07); transform: translateX(-50%); backdrop-filter: blur(16px); }
+.bottom-navigation { position: fixed; z-index: 50; left: 50%; bottom: 0; width: min(100%, 430px); height: calc(76px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(5, 1fr); padding: 7px 4px env(safe-area-inset-bottom); border-top: 1px solid #dedfe0; background: rgba(255,255,255,.985); box-shadow: 0 -4px 14px rgba(0,0,0,.07); transform: translateX(-50%); backdrop-filter: blur(16px); }
 .bottom-navigation button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; color: #646c70; background: transparent; cursor: pointer; }
 .bottom-navigation button > span { width: 37px; height: 32px; display: grid; place-items: center; }
-.bottom-navigation small { font-size: 11px; }
+.bottom-navigation small { font-size: 10px; }
 .bottom-navigation button.active { color: var(--movistar); font-weight: 750; }
 .bottom-navigation button.active:not(.featured)::after { content: ""; position: absolute; top: -8px; width: 28px; height: 3px; border-radius: 0 0 4px 4px; background: var(--movistar); }
 .bottom-navigation button.featured > span { position: absolute; top: -30px; width: 62px; height: 62px; border: 4px solid white; border-radius: 50%; color: white; background: linear-gradient(135deg, #bf8723, #e6bd5b); box-shadow: 0 4px 11px rgba(139,96,20,.28); }
@@ -291,7 +320,7 @@ h1, h2, h3, p { text-wrap: pretty; }
 .pdf-modal footer a { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 999px; color: white; background: var(--movistar); text-decoration: none; font-weight: 750; }
 
 .chat-backdrop { align-items: flex-end; padding: 0; }
-.chat-panel { width: min(100%, 520px); height: min(820px, 92vh); display: grid; grid-template-rows: 76px auto 1fr 70px; overflow: hidden; border-radius: 25px 25px 0 0; background: #f3f7f9; box-shadow: 0 -20px 60px rgba(0,0,0,.25); }
+.chat-panel { width: min(100%, 430px); height: min(820px, 92vh); display: grid; grid-template-rows: 76px auto 1fr 70px; overflow: hidden; border-radius: 25px 25px 0 0; background: #f3f7f9; box-shadow: 0 -20px 60px rgba(0,0,0,.25); }
 .chat-panel > header { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; color: white; background: var(--movistar); }
 .chat-panel > header > div { display: flex; align-items: center; gap: 10px; }
 .chat-panel > header span { display: flex; flex-direction: column; gap: 4px; }
@@ -342,6 +371,7 @@ h1, h2, h3, p { text-wrap: pretty; }
 @media (max-width: 390px) {
   .screen-content, .home-content { padding-left: 15px; padding-right: 15px; }
   .account-panel { padding-left: 15px; padding-right: 15px; }
+  .account-panel > .mobile-status-bar { margin-left: -15px; margin-right: -15px; }
   .account-panel header h1 { font-size: 23px; }
   .gold-row { padding: 0 14px; }
   .gold-row > span { font-size: 15px; }
@@ -353,10 +383,10 @@ h1, h2, h3, p { text-wrap: pretty; }
   .consumption-cards { gap: 9px; }
   .consumption-cards article { flex-basis: calc(52% - 5px); }
   .consumption-cards article > span { width: 120px; }
-  .lucia-entry { grid-template-columns: 56px 1fr 30px; padding-left: 12px; gap: 9px; }
-  .lucia-entry .lucia-avatar { width: 54px; height: 54px; }
-  .lucia-entry strong { font-size: 16px; }
-  .lucia-entry p { font-size: 11px; }
+  .lucia-entry { grid-template-columns: 45px 1fr 24px; padding-left: 11px; gap: 8px; }
+  .lucia-entry .lucia-avatar { width: 43px; height: 43px; }
+  .lucia-entry strong { font-size: 14px; }
+  .lucia-entry p { font-size: 9px; }
   .difference-card { grid-template-columns: 1fr 22px 1fr; }
   .difference-card > b { grid-column: 1 / -1; justify-self: center; }
   .assistant-hero .ui-badge { display: none; }
@@ -366,7 +396,7 @@ h1, h2, h3, p { text-wrap: pretty; }
   .decision-card footer { grid-template-columns: 1fr; }
 }
 
-@media (min-width: 521px) {
+@media (min-width: 431px) {
   .mobile-app { min-height: 100vh; border-left: 1px solid rgba(21,55,72,.08); border-right: 1px solid rgba(21,55,72,.08); }
 }
 
